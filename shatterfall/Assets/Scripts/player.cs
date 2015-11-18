@@ -39,32 +39,20 @@ public class player : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        
-        if (Input.GetKey(KeyCode.W))
-        {
-            var x = new Vector3(0, 0, 1) * moveForceScale;
-            //rigidbody.AddForce(x, ForceMode.VelocityChange);
-            rigidbody.velocity = x;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            var x = new Vector3(0, 0, -1) * moveForceScale;
-            //rigidbody.AddForce(x, ForceMode.VelocityChange);
-            rigidbody.velocity = x;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            var x = new Vector3(-1, 0, 0) * moveForceScale;
-            //rigidbody.AddForce(x, ForceMode.VelocityChange);
-            rigidbody.velocity = x;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            var x = new Vector3(1, 0, 0) * moveForceScale;
-            //rigidbody.AddForce(x, ForceMode.VelocityChange);
-            rigidbody.velocity = x;
-        }
+        var x = 0;
+        var z = 0;
 
+        if (Input.GetKey(KeyCode.W))
+            z = 1;
+        else if (Input.GetKey(KeyCode.S))
+            z = -1;
+        if (Input.GetKey(KeyCode.A))
+            x = -1;
+        else if (Input.GetKey(KeyCode.D))
+            x = 1;
+
+        if (x != 0 || z != 0)
+            rigidbody.velocity = new Vector3(x, 0, z) * moveForceScale;
 
     }
 }
