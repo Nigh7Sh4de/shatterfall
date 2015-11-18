@@ -40,6 +40,7 @@ public class player : MonoBehaviour {
     void Update () {
 
         var x = 0;
+        var y = rigidbody.velocity.y / moveForceScale;
         var z = 0;
 
         if (Input.GetKey(KeyCode.W))
@@ -52,7 +53,7 @@ public class player : MonoBehaviour {
             x = 1;
 
         if (x != 0 || z != 0)
-            rigidbody.velocity = new Vector3(x, 0, z) * moveForceScale;
+            rigidbody.velocity = new Vector3(x, y, z) * moveForceScale;
 
     }
 }
