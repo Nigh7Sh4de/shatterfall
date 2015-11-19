@@ -28,6 +28,8 @@ Library/previews
 
 Library/guidmapper
 
+Library/CurrentLayout.dwlt
+
 Temp
 
 *.csproj
