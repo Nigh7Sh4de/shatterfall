@@ -2,27 +2,39 @@
 
 .DS_Store
 
-Library/AssetImportState
+shatterfall/Library/AssetImportState
 
-Library/AssetServerCacheV3
+shatterfall/Library/AssetServerCacheV3
 
-Library/FailedAssetImports.txt
+shatterfall/Library/FailedAssetImports.txt
 
-Library/ScriptAssemblies
+shatterfall/Library/ScriptAssemblies
 
-Library/ScriptMapper
+shatterfall/Library/ScriptMapper
 
-Library/assetDatabase3
+shatterfall/Library/ShaderCache
 
-Library/cache
+shatterfall/Library/UnityAssemblies
 
-Library/expandedItems
+shatterfall/Library/assetDatabase3
 
-Library/metadata
+shatterfall/Library/cache
 
-Library/previews
+shatterfall/Library/expandedItems
 
-Library/guidmapper
+shatterfall/Library/metadata
+
+shatterfall/Library/previews
+
+shatterfall/Library/guidmapper
+
+shatterfall/Library/CurrentLayout.dwlt
+
+shatterfall/Temp
+
+shatterfall/build
+
+shatterfall/.DS_Store
 
 Temp
 
@@ -31,6 +43,8 @@ Temp
 *.pidb
 
 *.sln
+
+*.log
 
 build
 
