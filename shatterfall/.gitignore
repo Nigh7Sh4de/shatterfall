@@ -12,6 +12,10 @@ Library/ScriptAssemblies
 
 Library/ScriptMapper
 
+Library/ShaderCache
+
+Library/UnityAssemblies
+
 Library/assetDatabase3
 
 Library/cache
@@ -31,6 +35,8 @@ Temp
 *.pidb
 
 *.sln
+
+*.log
 
 build
 
