@@ -6,7 +6,7 @@ public class player : MonoBehaviour
 
     public GameObject floor;
     public GameObject orb;
-    GameObject _orb;
+    orb _orb;
 
     Rigidbody rigidbody;
     float moveForceScale, turnForceScale;
@@ -39,8 +39,9 @@ public class player : MonoBehaviour
         thisCollider = GetComponent<BoxCollider>();
         floorCollider = main.GetFloor().GetComponent<BoxCollider>();
 
-        _orb = Instantiate(orb);
-        _orb.SetActive(false);
+        var clone = Instantiate(orb);
+        clone.SetActive(false);
+        _orb = clone.GetComponent<orb>();
     }
 
     // Update is called once per frame
@@ -65,17 +66,12 @@ public class player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Mouse clicked");
-            _orb.transform.position = transform.position + new Vector3(0, 1, 0);
-            _orb.transform.rotation = transform.rotation;
-            _orb.SetActive(true);
-
+            _orb.Activate(transform.position + new Vector3(0, 1, 0), transform.rotation);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            Debug.Log("Mouse released");
-            _orb.SetActive(false);
+            _orb.Explode();
         }
         
 

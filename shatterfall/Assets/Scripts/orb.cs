@@ -13,6 +13,18 @@ public class orb : MonoBehaviour {
 
     }
 
+    public void Explode()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void Activate(Vector3 position, Quaternion rotation)
+    {
+        transform.position = position;
+        transform.rotation = rotation;
+        gameObject.SetActive(true);
+    }
+
     // Update is called once per frame
     void Update ()
     {
