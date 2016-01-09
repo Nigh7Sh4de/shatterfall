@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class player : MonoBehaviour {
+public class player : MonoBehaviour
+{
 
     public GameObject floor;
+    public GameObject orb;
+    GameObject _orb;
 
     Rigidbody rigidbody;
     float moveForceScale, turnForceScale;
@@ -26,7 +29,8 @@ public class player : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         moveForceScale = 2f;
         turnForceScale = 1;
 
@@ -34,10 +38,14 @@ public class player : MonoBehaviour {
 
         thisCollider = GetComponent<BoxCollider>();
         floorCollider = main.GetFloor().GetComponent<BoxCollider>();
+
+        _orb = Instantiate(orb);
+        _orb.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
 
         var x = 0;
         var y = rigidbody.velocity.y / moveForceScale;
@@ -54,6 +62,23 @@ public class player : MonoBehaviour {
 
         if (x != 0 || z != 0)
             rigidbody.velocity = new Vector3(x, y, z) * moveForceScale;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Mouse clicked");
+            _orb.transform.position = transform.position + new Vector3(0, 1, 0);
+            _orb.transform.rotation = transform.rotation;
+            _orb.SetActive(true);
+
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("Mouse released");
+            _orb.SetActive(false);
+        }
+        
+
 
     }
 }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class main : MonoBehaviour {
+public class main : MonoBehaviour
+{
 
     public GameObject triangle;
     public GameObject player;
@@ -10,7 +11,8 @@ public class main : MonoBehaviour {
     static GameObject floorInstance;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         CreateFloor();
         CreatePlayer();
         //var x = (GameObject) GameObject.Instantiate(triangle, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(-90, 0, 0)));
@@ -19,9 +21,10 @@ public class main : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-	
-	}
+    void Update()
+    {
+
+    }
 
     public static GameObject GetFloor()
     {
@@ -35,7 +38,7 @@ public class main : MonoBehaviour {
 
     void CreateFloor()
     {
-        floorInstance = (GameObject) GameObject.Instantiate(floor, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
+        floorInstance = (GameObject)GameObject.Instantiate(floor, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
 
         const int MAX = 20;
         for (int j = 0; j < MAX; j++)
