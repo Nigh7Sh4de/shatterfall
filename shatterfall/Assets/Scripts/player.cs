@@ -15,23 +15,15 @@ public class player : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-<<<<<<< HEAD
         triggerCount++;
 
         //Debug.Log(triggerCount);
-=======
-        //Debug.Log(triggerCount++);
->>>>>>> 2ec30d7f59c83e0c5706f3d50d60397c4d2a1b7e
     }
 
     void OnTriggerExit(Collider other)
     {
-<<<<<<< HEAD
         triggerCount--;
         //Debug.Log(triggerCount);
-=======
-        //Debug.Log(triggerCount--);
->>>>>>> 2ec30d7f59c83e0c5706f3d50d60397c4d2a1b7e
 
         if (triggerCount <= 1)
         {
