@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class player : MonoBehaviour
 {
@@ -10,22 +10,25 @@ public class player : MonoBehaviour
 
     Rigidbody rigidbody;
     float moveForceScale, turnForceScale;
-    int triggerCount = 0;
     Collider thisCollider, floorCollider;
+    List<Collider> collisions = new List<Collider>();
 
     void OnTriggerEnter(Collider other)
     {
-        triggerCount++;
+        if (collisions.Find(o => o.GetInstanceID() == other.GetInstanceID()) == null)
+            collisions.Add(other);
 
-        //Debug.Log(triggerCount);
+        //Debug.Log(collisions.Count);
     }
 
     void OnTriggerExit(Collider other)
     {
-        triggerCount--;
-        //Debug.Log(triggerCount);
 
-        if (triggerCount <= 1)
+        collisions.Remove(other);
+
+        //Debug.Log(collisions.Count);
+
+        if (collisions.Count <= 1)
         {
             Physics.IgnoreCollision(thisCollider, floorCollider);
         }
@@ -45,6 +48,7 @@ public class player : MonoBehaviour
         var clone = Instantiate(orb);
         clone.SetActive(false);
         _orb = clone.GetComponent<orb>();
+
     }
 
     // Update is called once per frame
@@ -63,6 +67,12 @@ public class player : MonoBehaviour
             x = -1;
         else if (Input.GetKey(KeyCode.D))
             x = 1;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            transform.Translate(0, 2, 0);
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+        }
 
         if (x != 0 || z != 0)
             rigidbody.velocity = new Vector3(x, y, z) * moveForceScale;

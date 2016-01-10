@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class orb : MonoBehaviour {
 
     Rigidbody rigidbody;
+    SphereCollider collider;
 
     const int SPEED = 500;
-    ArrayList collisions;
+    List<floor> collisions;
+    private int exploding = 0;
 
     // Use this for initialization
     void Start () {
         rigidbody = GetComponent<Rigidbody>();
-        collisions = new ArrayList();
+        collider = GetComponent<SphereCollider>();
+        collisions = new List<floor>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -25,27 +28,28 @@ public class orb : MonoBehaviour {
     {
         collisions.Remove(other.GetComponent<floor>());
 
-        Debug.Log("orb->" + other.name + " " + collisions.Count);
-
+        //Debug.Log("orb->" + other.name + " " + collisions.Count);
 
     }
 
     public void Explode()
     {
 
-        foreach (floor other in collisions)
+        while (collisions.Count > 0)
         {
+            var other = collisions[0];
             if (other != null)
                 other.Drop();
+            collisions.Remove(other);
         }
+        exploding++;
 
 
-        gameObject.SetActive(false);
     }
 
     public void Activate(Vector3 position, Quaternion rotation)
     {
-        collisions = new ArrayList();
+        collisions = new List<floor>();
         transform.position = position;
         transform.rotation = rotation;
         gameObject.SetActive(true);
@@ -54,8 +58,22 @@ public class orb : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        var angle = Mathf.Deg2Rad * (transform.rotation.eulerAngles.y + 90);
-        rigidbody.velocity = new Vector3(Mathf.Sin(angle) * SPEED * Time.deltaTime, 0, SPEED * Time.deltaTime * Mathf.Cos(angle));
-
+        if (exploding > 20)
+        {
+            Explode();
+            exploding = 0;
+            gameObject.SetActive(false);
+        }
+        else if (exploding > 0)
+        {
+            collider.radius += 0.025f;
+            Explode();
+            rigidbody.velocity = Vector3.zero;
+        }
+        else
+        {
+            var angle = Mathf.Deg2Rad * (transform.rotation.eulerAngles.y + 90);
+            rigidbody.velocity = new Vector3(Mathf.Sin(angle) * SPEED * Time.deltaTime, 0, SPEED * Time.deltaTime * Mathf.Cos(angle));
+        }
     }
 }

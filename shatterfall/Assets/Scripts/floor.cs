@@ -4,6 +4,7 @@ using System.Collections;
 public class floor : MonoBehaviour {
 
     Rigidbody rigidbody;
+    BoxCollider collider;
 
     public void Drop()
     {
