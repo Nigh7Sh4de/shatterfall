@@ -6,12 +6,15 @@ public class orb : MonoBehaviour {
     Rigidbody rigidbody;
     SphereCollider collider;
 
-    const int SPEED = 500;
     List<floor> collisions;
     private int exploding = 0;
 
+    private const int SPEED = 1000;
+    private const int EXPLODE_DURATION = 20;
+    private const float EXPLODE_RATE = 0.05f;
+
     // Use this for initialization
-    void Start () {
+    void Awake() {
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<SphereCollider>();
         collisions = new List<floor>();
@@ -52,21 +55,29 @@ public class orb : MonoBehaviour {
         collisions = new List<floor>();
         transform.position = position;
         transform.rotation = rotation;
+        Reset();
         gameObject.SetActive(true);
+    }
+
+    void Reset()
+    {
+        exploding = 0;
+        collider.radius = 0.2f;
+
     }
 
     // Update is called once per frame
     void Update ()
     {
-        if (exploding > 20)
+        if (exploding > EXPLODE_DURATION)
         {
             Explode();
-            exploding = 0;
+            Reset();
             gameObject.SetActive(false);
         }
         else if (exploding > 0)
         {
-            collider.radius += 0.025f;
+            collider.radius += EXPLODE_RATE;
             Explode();
             rigidbody.velocity = Vector3.zero;
         }

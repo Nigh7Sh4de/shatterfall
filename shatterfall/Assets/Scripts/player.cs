@@ -8,8 +8,9 @@ public class player : MonoBehaviour
     public GameObject orb;
     orb _orb;
 
-    Rigidbody rigidbody;
-    float moveForceScale, turnForceScale;
+    new Rigidbody rigidbody;
+    float MOVE_SPEED = 5f;
+    //turnForceScale;
     Collider thisCollider, floorCollider;
     List<Collider> collisions = new List<Collider>();
 
@@ -37,8 +38,7 @@ public class player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        moveForceScale = 2f;
-        turnForceScale = 1;
+        //turnForceScale = 1;
 
         rigidbody = GetComponent<Rigidbody>();
 
@@ -55,9 +55,9 @@ public class player : MonoBehaviour
     void Update()
     {
 
-        var x = 0;
-        var y = rigidbody.velocity.y / moveForceScale;
-        var z = 0;
+        var x = 0f;
+        var y = rigidbody.velocity.y / MOVE_SPEED;
+        var z = 0f;
 
         if (Input.GetKey(KeyCode.W))
             z = 1;
@@ -68,14 +68,13 @@ public class player : MonoBehaviour
         else if (Input.GetKey(KeyCode.D))
             x = 1;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (x != 0 && z != 0)
         {
-            transform.Translate(0, 2, 0);
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+            x *= 0.707f;
+            z *= 0.707f;
         }
 
-        if (x != 0 || z != 0)
-            rigidbody.velocity = new Vector3(x, y, z) * moveForceScale;
+        rigidbody.velocity = new Vector3(x, y, z) * MOVE_SPEED;
 
         if (Input.GetMouseButtonDown(0))
         {
