@@ -17,16 +17,14 @@ public class orb : MonoBehaviour {
         rigidbody = GetComponent<Rigidbody>();
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
-
         if (exploding > 0)
         {
             floor floor = null;
             if ((floor = other.GetComponent<floor>()) != null)
                 floor.Drop();
         }
-
     }
 
     void OnTriggerExit(Collider other)
