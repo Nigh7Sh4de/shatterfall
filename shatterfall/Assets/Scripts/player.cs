@@ -13,13 +13,13 @@ public class player : MonoBehaviour
     //turnForceScale;
     Collider thisCollider, floorCollider;
     List<Collider> collisions = new List<Collider>();
-
+    
     void OnTriggerEnter(Collider other)
     {
         if (collisions.Find(o => o.GetInstanceID() == other.GetInstanceID()) == null)
             collisions.Add(other);
 
-        //Debug.Log(collisions.Count);
+        Debug.Log(collisions.Count);
     }
 
     void OnTriggerExit(Collider other)
@@ -27,7 +27,7 @@ public class player : MonoBehaviour
 
         collisions.Remove(other);
 
-        //Debug.Log(collisions.Count);
+        Debug.Log(collisions.Count);
 
         if (collisions.Count <= 1)
         {
@@ -78,7 +78,7 @@ public class player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            _orb.Activate(transform.position + new Vector3(0, 1, 0), transform.rotation);
+            _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
         }
 
         if (Input.GetMouseButtonUp(0))

@@ -3,66 +3,60 @@ using System.Collections.Generic;
 
 public class orb : MonoBehaviour {
 
-    Rigidbody rigidbody;
-    SphereCollider collider;
+    new Rigidbody rigidbody;
+    Vector3 velocity;
+    Quaternion direction;
 
-    List<floor> collisions;
     private int exploding = 0;
 
     private const int SPEED = 1000;
-    private const int EXPLODE_DURATION = 20;
-    private const float EXPLODE_RATE = 0.05f;
+    private const int EXPLODE_DURATION = 60;
+    private const int EXPLODE_RATE = 3000;
 
-    // Use this for initialization
     void Awake() {
         rigidbody = GetComponent<Rigidbody>();
-        collider = GetComponent<SphereCollider>();
-        collisions = new List<floor>();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        collisions.Add(other.GetComponent<floor>());
 
-        //Debug.Log("orb->" + other.name + " " + collisions.Count);
+        if (exploding > 0)
+        {
+            floor floor = null;
+            if ((floor = other.GetComponent<floor>()) != null)
+                floor.Drop();
+        }
+
     }
 
     void OnTriggerExit(Collider other)
     {
-        collisions.Remove(other.GetComponent<floor>());
-
-        //Debug.Log("orb->" + other.name + " " + collisions.Count);
-
     }
 
     public void Explode()
     {
-
-        while (collisions.Count > 0)
-        {
-            var other = collisions[0];
-            if (other != null)
-                other.Drop();
-            collisions.Remove(other);
-        }
         exploding++;
+        rigidbody.velocity = Vector3.zero;
 
 
     }
 
     public void Activate(Vector3 position, Quaternion rotation)
     {
-        collisions = new List<floor>();
-        transform.position = position;
-        transform.rotation = rotation;
         Reset();
+        transform.position = position;
+        transform.rotation = direction = rotation;
         gameObject.SetActive(true);
+        var angle = Mathf.Deg2Rad * (transform.rotation.eulerAngles.y + 90);
+        velocity = new Vector3(Mathf.Sin(angle) * SPEED, 0, SPEED * Mathf.Cos(angle));
     }
 
     void Reset()
     {
         exploding = 0;
-        collider.radius = 0.2f;
+        rigidbody.velocity = Vector3.zero;
+        rigidbody.angularVelocity = Vector3.zero;
+        gameObject.SetActive(false);
 
     }
 
@@ -71,20 +65,17 @@ public class orb : MonoBehaviour {
     {
         if (exploding > EXPLODE_DURATION)
         {
-            Explode();
             Reset();
-            gameObject.SetActive(false);
         }
         else if (exploding > 0)
         {
-            collider.radius += EXPLODE_RATE;
-            Explode();
-            rigidbody.velocity = Vector3.zero;
+            rigidbody.velocity = Vector3.down * Time.deltaTime * EXPLODE_RATE;
+            exploding++;
         }
         else
         {
-            var angle = Mathf.Deg2Rad * (transform.rotation.eulerAngles.y + 90);
-            rigidbody.velocity = new Vector3(Mathf.Sin(angle) * SPEED * Time.deltaTime, 0, SPEED * Time.deltaTime * Mathf.Cos(angle));
+            rigidbody.velocity = velocity * Time.deltaTime;
+            rigidbody.angularVelocity = Vector3.zero;
         }
     }
 }
