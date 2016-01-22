@@ -31,7 +31,9 @@ public class player : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        collisions.Remove(other);
+        Debug.Log("LEFT:" + other.name);
+        if (!collisions.Remove(other))
+            Debug.LogError("HOLY FLYING FUCK KILL YOURSELF!");
     }
 
     public void Die()
