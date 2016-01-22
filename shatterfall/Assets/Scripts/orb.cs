@@ -11,7 +11,7 @@ public class orb : MonoBehaviour {
 
     private const int SPEED = 1000;
     private const int EXPLODE_DURATION = 60;
-    private const int EXPLODE_RATE = 3000;
+    private const int EXPLODE_RATE = 1000;
 
     void Awake() {
         rigidbody = GetComponent<Rigidbody>();

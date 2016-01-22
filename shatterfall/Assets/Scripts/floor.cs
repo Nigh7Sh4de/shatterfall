@@ -10,8 +10,8 @@ public class floor : MonoBehaviour {
     {
         rigidbody.isKinematic = false;
         rigidbody.useGravity = true;
-        collider.isTrigger = false;
-        gameObject.layer = 12;
+        //collider.isTrigger = false;
+        //gameObject.layer = 12;
     }
 
 	// Use this for initialization
