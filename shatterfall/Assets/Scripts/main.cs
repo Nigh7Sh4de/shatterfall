@@ -40,6 +40,7 @@ public class main : MonoBehaviour
                     fcomp.Die();
                     continue;
                 }
+                Destroy(g);
             }
             Start();
         }
