@@ -34,6 +34,12 @@ public class player : MonoBehaviour
         collisions.Remove(other);
     }
 
+    public void Die()
+    {
+        _orb.Die();
+        Destroy(gameObject);
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -130,7 +136,11 @@ public class player : MonoBehaviour
 			}
 		} */
 		gameObject.transform.eulerAngles = new Vector3 (0, direction, 0);
-		Debug.Log(collisions.Count);
+
+        var s = "";
+        collisions.ForEach(c => s += c.name);
+
+		Debug.Log(collisions.Count + ":::" + s);
 
 		if (collisions.Count < 1 && transform.position.y < 0.511)
 		{

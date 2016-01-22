@@ -14,6 +14,11 @@ public class floor : MonoBehaviour {
         //gameObject.layer = 12;
     }
 
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
 	// Use this for initialization
 	void Start () {
         rigidbody = gameObject.GetComponent<Rigidbody>();

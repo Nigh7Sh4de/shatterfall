@@ -31,6 +31,11 @@ public class orb : MonoBehaviour {
     {
     }
 
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
     public void Explode()
     {
         exploding++;

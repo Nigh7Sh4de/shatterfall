@@ -23,7 +23,26 @@ public class main : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            var go = GameObject.FindObjectsOfType<GameObject>();
+            foreach (var g in go)
+            {
+                var pcomp = g.GetComponent<player>();
+                if (pcomp != null)
+                {
+                    pcomp.Die();
+                    continue;
+                }
+                var fcomp = g.GetComponent<floor>();
+                if (fcomp != null)
+                {
+                    fcomp.Die();
+                    continue;
+                }
+            }
+            Start();
+        }
     }
 
     public static GameObject GetFloor()
@@ -40,6 +59,8 @@ public class main : MonoBehaviour
     {
         floorInstance = (GameObject)GameObject.Instantiate(floor, new Vector3(13, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
 
+        var tile = (Object) null;
+        int floorCounter = 0;
         int i = 0;
 
         //const int MAP_SIZE = 8;
@@ -49,45 +70,20 @@ public class main : MonoBehaviour
 
         for (int j = 0; j < MAP_SIZE; j++)
         {
-            GameObject.Instantiate(triangle, new Vector3(0.8765f * (0 + j) - 0.43825f, 0, -1.5f * j + 0.25f), Quaternion.Euler(new Vector3(-90, 160, 0)));
+            tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (0 + j) - 0.43825f, 0, -1.5f * j + 0.25f), Quaternion.Euler(new Vector3(-90, 160, 0)));
+            tile.name = "tile" + (floorCounter++).ToString();
 
             //for (int i = 0; i < MAX - j; i++)
             for (i = 0; i < MAX; i++)
             {
-                GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, -1.5f * j), Quaternion.Euler(new Vector3(-90, 345, 0)));
-                GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, -1.5f * j + 0.25f), Quaternion.Euler(new Vector3(-90, 160, 0)));
-                GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, -1.5f * j - 0.5f), Quaternion.Euler(new Vector3(-90, 160, 0)));
-                GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, -1.5f * j - 0.75f), Quaternion.Euler(new Vector3(-90, 345, 0)));
-
-
-
-            //GameObject.Instantiate(triangle, new Vector3(0.375f * j + 0.866f * i, 0, 0.75f * j), Quaternion.Euler(new Vector3(-90, 0, 0)));
-            //GameObject.Instantiate(triangle, new Vector3(0.433f + 0.375f * j + 0.866f * i, 0, 0.25f + 0.75f * j), Quaternion.Euler(new Vector3(-90, 180, 0)));
-            }
-            MAX -= 2;
-
-            GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, -1.5f * j), Quaternion.Euler(new Vector3(-90, 345, 0)));
-            GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, -1.5f * j - 0.5f), Quaternion.Euler(new Vector3(-90, 160, 0)));
-
-            GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, -1.5f * j + 0.25f), Quaternion.Euler(new Vector3(-90, 160, 0)));
-
-
-        }
-
-        MAX = MAXi;
-
-        for (int j = 1; j < MAP_SIZE + 1 ; j++)
-        {
-            GameObject.Instantiate(triangle, new Vector3(0.8765f * (-1 + j) - 0.43825f, 0, 1.5f * j - 0.75f), Quaternion.Euler(new Vector3(-90, 345, 0)));
-
-
-            //for (int i = 0; i < MAX - j; i++)
-            for (i = -1; i < MAX - 1; i++)
-            {
-                GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, 1.5f * j), Quaternion.Euler(new Vector3(-90, 345, 0)));
-                GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, 1.5f * j + 0.25f), Quaternion.Euler(new Vector3(-90, 160, 0)));
-                GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, 1.5f * j - 0.5f), Quaternion.Euler(new Vector3(-90, 160, 0)));
-                GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, 1.5f * j - 0.75f), Quaternion.Euler(new Vector3(-90, 345, 0)));
+                tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, -1.5f * j), Quaternion.Euler(new Vector3(-90, 345, 0)));
+                tile.name = "tile" + (floorCounter++).ToString();
+                tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, -1.5f * j + 0.25f), Quaternion.Euler(new Vector3(-90, 160, 0)));
+                tile.name = "tile" + (floorCounter++).ToString();
+                tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, -1.5f * j - 0.5f), Quaternion.Euler(new Vector3(-90, 160, 0)));
+                tile.name = "tile" + (floorCounter++).ToString();
+                tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, -1.5f * j - 0.75f), Quaternion.Euler(new Vector3(-90, 345, 0)));
+                tile.name = "tile" + (floorCounter++).ToString();
 
 
 
@@ -96,10 +92,50 @@ public class main : MonoBehaviour
             }
             MAX -= 2;
 
-            GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, 1.5f * j), Quaternion.Euler(new Vector3(-90, 345, 0)));
-            GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, 1.5f * j - 0.5f), Quaternion.Euler(new Vector3(-90, 160, 0)));
+            tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, -1.5f * j), Quaternion.Euler(new Vector3(-90, 345, 0)));
+            tile.name = "tile" + (floorCounter++).ToString();
+            tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, -1.5f * j - 0.5f), Quaternion.Euler(new Vector3(-90, 160, 0)));
+            tile.name = "tile" + (floorCounter++).ToString();
 
-            GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, 1.5f * j - 0.75f), Quaternion.Euler(new Vector3(-90, 345, 0)));
+            tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, -1.5f * j + 0.25f), Quaternion.Euler(new Vector3(-90, 160, 0)));
+            tile.name = "tile" + (floorCounter++).ToString();
+
+
+        }
+
+        MAX = MAXi;
+
+        for (int j = 1; j < MAP_SIZE + 1 ; j++)
+        {
+            tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (-1 + j) - 0.43825f, 0, 1.5f * j - 0.75f), Quaternion.Euler(new Vector3(-90, 345, 0)));
+            tile.name = "tile" + (floorCounter++).ToString();
+
+            //for (int i = 0; i < MAX - j; i++)
+            for (i = -1; i < MAX - 1; i++)
+            {
+                tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, 1.5f * j), Quaternion.Euler(new Vector3(-90, 345, 0)));
+                tile.name = "tile" + (floorCounter++).ToString();
+                tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, 1.5f * j + 0.25f), Quaternion.Euler(new Vector3(-90, 160, 0)));
+                tile.name = "tile" + (floorCounter++).ToString();
+                tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, 1.5f * j - 0.5f), Quaternion.Euler(new Vector3(-90, 160, 0)));
+                tile.name = "tile" + (floorCounter++).ToString();
+                tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, 1.5f * j - 0.75f), Quaternion.Euler(new Vector3(-90, 345, 0)));
+                tile.name = "tile" + (floorCounter++).ToString();
+
+
+
+                //GameObject.Instantiate(triangle, new Vector3(0.375f * j + 0.866f * i, 0, 0.75f * j), Quaternion.Euler(new Vector3(-90, 0, 0)));
+                //GameObject.Instantiate(triangle, new Vector3(0.433f + 0.375f * j + 0.866f * i, 0, 0.25f + 0.75f * j), Quaternion.Euler(new Vector3(-90, 180, 0)));
+            }
+            MAX -= 2;
+
+            tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, 1.5f * j), Quaternion.Euler(new Vector3(-90, 345, 0)));
+            tile.name = "tile" + (floorCounter++).ToString();
+            tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j), 0, 1.5f * j - 0.5f), Quaternion.Euler(new Vector3(-90, 160, 0)));
+            tile.name = "tile" + (floorCounter++).ToString();
+
+            tile = GameObject.Instantiate(triangle, new Vector3(0.8765f * (i + j) + 0.43825f, 0, 1.5f * j - 0.75f), Quaternion.Euler(new Vector3(-90, 345, 0)));
+            tile.name = "tile" + (floorCounter++).ToString();
 
 
         }
