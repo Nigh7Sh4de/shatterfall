@@ -40,7 +40,8 @@ public class main : MonoBehaviour
                     fcomp.Die();
                     continue;
                 }
-                Destroy(g);
+                if (g.name != "Plane" && g.name != "Directional Light" && g.name != "Main Camera")
+                    Destroy(g);
             }
             Start();
         }
