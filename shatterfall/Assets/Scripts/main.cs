@@ -40,7 +40,8 @@ public class main : MonoBehaviour
                     fcomp.Die();
                     continue;
                 }
-                Destroy(g);
+                if (g.GetComponent<Camera>() == null)
+                    Destroy(g);
             }
             Start();
         }
