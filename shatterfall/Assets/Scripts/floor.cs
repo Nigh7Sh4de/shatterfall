@@ -3,8 +3,22 @@ using System.Collections;
 
 public class floor : MonoBehaviour {
 
+    public Material OriginalMaterial;
+    public Material HighlightedMaterial;
+
     Rigidbody rigidbody;
     BoxCollider collider;
+    Renderer renderer;
+
+    public void Highlight()
+    {
+        renderer.material = HighlightedMaterial;
+    }
+
+    public void UnHighlight()
+    {
+        renderer.material = OriginalMaterial;
+    }
 
     public void Drop()
     {
@@ -23,7 +37,7 @@ public class floor : MonoBehaviour {
 	void Start () {
         rigidbody = gameObject.GetComponent<Rigidbody>();
         collider = gameObject.GetComponent<BoxCollider>();
-
+        renderer = gameObject.GetComponent<Renderer>();
     }
 	
 	// Update is called once per frame

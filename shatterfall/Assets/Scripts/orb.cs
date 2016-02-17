@@ -17,6 +17,20 @@ public class orb : MonoBehaviour {
         rigidbody = GetComponent<Rigidbody>();
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        var floor = other.GetComponent<floor>();
+        if (floor != null)
+            floor.UnHighlight();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        var floor = other.GetComponent<floor>();
+        if (floor != null)
+            floor.Highlight();
+    }
+
     void OnTriggerStay(Collider other)
     {
         if (exploding > 0)
@@ -25,10 +39,6 @@ public class orb : MonoBehaviour {
             if ((floor = other.GetComponent<floor>()) != null)
                 floor.Drop();
         }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
     }
 
     public void Die()
@@ -40,8 +50,6 @@ public class orb : MonoBehaviour {
     {
         exploding++;
         rigidbody.velocity = Vector3.zero;
-
-
     }
 
     public void Activate(Vector3 position, Quaternion rotation)
