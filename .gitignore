@@ -38,6 +38,8 @@ shatterfall/build
 
 shatterfall/.DS_Store
 
+shatterfall/.vs
+
 Temp
 
 *.csproj
