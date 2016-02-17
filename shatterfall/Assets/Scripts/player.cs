@@ -19,6 +19,7 @@ public class player : MonoBehaviour
 	
     new Rigidbody rigidbody;
     float MOVE_SPEED = 5f;
+    int TURN_SPEED = 1000;
     //turnForceScale;
     Collider thisCollider, floorCollider;
     List<Collider> collisions = new List<Collider>();
@@ -31,9 +32,9 @@ public class player : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        Debug.Log("LEFT:" + other.name);
-        if (!collisions.Remove(other))
-            Debug.LogError("HOLY FLYING FUCK KILL YOURSELF!");
+        //Debug.Log("LEFT:" + other.name);
+        if (!collisions.Remove(other)) ;
+            //Debug.LogError("HOLY FLYING FUCK KILL YOURSELF!");
     }
 
     public void Die()
@@ -108,41 +109,46 @@ public class player : MonoBehaviour
 		mouseOffsetX = mouseX2 - mouseX1;
 		mouseOffsetY = mouseY2 - mouseY1;
 		
-		if (Mathf.Abs (mouseOffsetX) > 5 || Mathf.Abs (mouseOffsetY) > 5) {
+		if (Mathf.Abs (mouseOffsetX) > 2 || Mathf.Abs (mouseOffsetY) > 2) {
 			direction = -Mathf.Atan2 (mouseOffsetY, mouseOffsetX) * (180 / Mathf.PI);
 		}
 		if (direction < 0) {
 			direction = 360 - Mathf.Abs (direction);
 		}
-		//direction = Vector2.Angle (new Vector2 (mouseX2, mouseY2), new Vector2 (mouseX1, mouseY1));
-		
-		mouseX1 = mouseX2;
-		mouseY1 = mouseY2;
-		//Debug.Log (direction);
-		//Debug.Log (gameObject.transform.eulerAngles.y);
-		/*
-		float angle = (gameObject.transform.eulerAngles.y - direction) % 360;
-		if (angle >= 180) {
-			angle = angle - 360; 
-		}
-		if (angle <= -180) { 
-			angle = angle + 360;
-		}
 
-		if (Mathf.Abs (angle) > 1) {
-			if (angle >= 30) {
-				gameObject.transform.eulerAngles = new Vector3 (0, gameObject.transform.eulerAngles.y - 30, 0);
-			} 
-			else if (angle > 0 && angle < 30) {
-				gameObject.transform.eulerAngles = new Vector3 (0, gameObject.transform.eulerAngles.y - Mathf.Abs (angle), 0);
-			}
-		} */
-		gameObject.transform.eulerAngles = new Vector3 (0, direction, 0);
+        var curDirection = (int)gameObject.transform.eulerAngles.y;
+        var tarDirection = (int)direction;
+
+        if (curDirection != tarDirection)
+        {
+            mouseX1 = mouseX2;
+            mouseY1 = mouseY2;
+
+            var delta = 0;
+            if (tarDirection - curDirection < -180)
+                delta = 1;
+            else if (tarDirection - curDirection < 0)
+                delta = -1;
+            else if (tarDirection - curDirection < 180)
+                delta = 1;
+            else
+                delta = -1;
+
+            var angle = Time.deltaTime * TURN_SPEED * delta;
+
+            if (Mathf.Abs(tarDirection - curDirection) < 10)
+                gameObject.transform.eulerAngles = new Vector3(0, tarDirection, 0);
+            else
+                gameObject.transform.eulerAngles = new Vector3(0, curDirection + angle, 0);
+        }
+        else
+            rigidbody.angularVelocity = Vector3.zero;
+
 
         var s = "";
         collisions.ForEach(c => s += c.name);
 
-		Debug.Log(collisions.Count + ":::" + s);
+		//Debug.Log(collisions.Count + ":::" + s);
 
 		if (collisions.Count < 1 && transform.position.y < 0.511)
 		{
