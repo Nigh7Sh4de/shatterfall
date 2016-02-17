@@ -14,10 +14,7 @@ public class main : MonoBehaviour
     void Start()
     {
         CreateFloor(8);
-        CreatePlayer();
-        //var x = (GameObject) GameObject.Instantiate(triangle, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(-90, 0, 0)));
-        ////x.transform.localScale += new Vector3(10, 1, 10);
-        //GameObject.Instantiate(player, new Vector3(0, 5, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
+        CreatePlayer(5);
     }
 
     // Update is called once per frame
@@ -53,10 +50,41 @@ public class main : MonoBehaviour
         return floorInstance;
     }
 
-    void CreatePlayer()
+    private Vector3 GeneratePlayerPosition(int i)
     {
-        GameObject.Instantiate(player, new Vector3(5, 0.7f, 5), Quaternion.Euler(new Vector3(0, 0, 0)));
+        if (i > 3)
+            throw new UnityException("Cannot have more than 4 players.");
+        var map_width = FloorConstants.s_x1 * (0 + 31) + FloorConstants.t_x1;
+        var result = new Vector3(
+                i % 2 != 0 ? map_width - 5 : 5,
+                0.7f,
+                i < 2 ? 5 : -5
+            );
+        return result; 
+
     }
+
+    void CreatePlayer(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            var created_player = (GameObject)GameObject.Instantiate(player, GeneratePlayerPosition(i), Quaternion.Euler(new Vector3(0, 0, 0)));
+            if (i == 0)
+                continue;
+            var script = created_player.GetComponent<player>();
+            script.enabled = false;
+        }
+    }
+
+    private static class FloorConstants {
+        public const float t_x1 = 0.5f;
+        public const float t_y1 = 0.5f;
+        public const float t_y2 = -0.345f;
+        public const float t_y3 = -0.85f;
+        public const float s_x1 = 1f;
+        public const float s_y1 = -1.7f;
+        public const float s_y2 = -s_y1;
+    };
 
     void CreateFloor(int MAP_SIZE)
     {
@@ -74,13 +102,13 @@ public class main : MonoBehaviour
         const int angle2 = 45;
         const int angleHorizontal = -90;
 
-        const float t_x1 = 0.5f;
-        const float t_y1 = 0.5f;
-        const float t_y2 = -0.345f;
-        const float t_y3 = -0.85f;
-        const float s_x1 = 1f;
-        const float s_y1 = -1.7f;
-        const float s_y2 = -s_y1;
+        const float t_x1 = FloorConstants.t_x1;
+        const float t_y1 = FloorConstants.t_y1;
+        const float t_y2 = FloorConstants.t_y2;
+        const float t_y3 = FloorConstants.t_y3;
+        const float s_x1 = FloorConstants.s_x1;
+        const float s_y1 = FloorConstants.s_y1;
+        const float s_y2 = FloorConstants.s_y2;
 
         for (int j = 0; j < MAP_SIZE; j++)
         {
