@@ -14,7 +14,7 @@ public class main : MonoBehaviour
     void Start()
     {
         CreateFloor(8);
-        CreatePlayer(5);
+        CreatePlayer(4);
     }
 
     // Update is called once per frame
@@ -68,11 +68,13 @@ public class main : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            var created_player = (GameObject)GameObject.Instantiate(player, GeneratePlayerPosition(i), Quaternion.Euler(new Vector3(0, 0, 0)));
+            var created_player = (GameObject)Instantiate(player, GeneratePlayerPosition(i), Quaternion.Euler(new Vector3(0, 0, 0)));
+            created_player.name = "Player" + (i + 1);
             if (i == 0)
                 continue;
             var script = created_player.GetComponent<player>();
-            script.enabled = false;
+            script.Active = false;
+            //script.enabled = false;
         }
     }
 
