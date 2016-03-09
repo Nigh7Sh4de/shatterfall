@@ -9,6 +9,7 @@ public class player : MonoBehaviour
     orb _orb;
     public bool Active = true;
 
+
 	//player direction
 	public float mouseX1;
 	public float mouseY1;
@@ -26,6 +27,7 @@ public class player : MonoBehaviour
     //turnForceScale;
     Collider thisCollider, floorCollider;
     List<Collider> collisions = new List<Collider>();
+	new Animation armsUp;
 
     void OnCollisionEnter(Collision col)
     {
@@ -44,7 +46,6 @@ public class player : MonoBehaviour
     {
         if (collisions.Find(o => o.GetInstanceID() == other.GetInstanceID()) == null)
             collisions.Add(other);
-
     }
 
     void OnTriggerExit(Collider other)
@@ -70,6 +71,7 @@ public class player : MonoBehaviour
     void Start()
     {
         //turnForceScale = 1;
+		armsUp = GetComponent<Animation> ();
 
         rigidbody = GetComponent<Rigidbody>();
 
@@ -117,6 +119,8 @@ public class player : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
+				armsUp["Arms_Up2"].speed = 4.5f;
+				armsUp.Play("Arms_Up2");
             }
 
             if (Input.GetMouseButtonUp(0))

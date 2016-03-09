@@ -43,6 +43,9 @@ public class main : MonoBehaviour
             }
             Start();
         }
+		if (Input.GetKeyDown (KeyCode.R)) {
+			Application.LoadLevel ("MainMenu");
+		}
     }
 
     public static GameObject GetFloor()
