@@ -88,12 +88,55 @@ public class player : MonoBehaviour
 
     }
 
+    private class KeyMap
+    {
+        public KeyMap(string x, KeyCode p)
+        {
+            XBOXkey = x;
+            PCkey = p;
+            PreviousFrame = 10;
+        }
+        public string XBOXkey;
+        public KeyCode PCkey;
+        public float PreviousFrame;
+    }
+
+    private static class PlayerControls
+    {
+        public static KeyMap Activate = new KeyMap("Activate", KeyCode.Mouse0);
+        public static KeyMap Explode = new KeyMap("Fire1", KeyCode.Mouse0);
+        public static KeyMap Horizontal = new KeyMap("Fire1", KeyCode.Mouse0);
+        public static KeyMap Vertical = new KeyMap("Fire1", KeyCode.Mouse0);
+        public static KeyMap Jump = new KeyMap("Fire1", KeyCode.Mouse0);
+        public static KeyMap MoveHorizontal = new KeyMap("Fire1", KeyCode.Mouse0);
+        public static KeyMap MoveVertical = new KeyMap("Fire1", KeyCode.Mouse0);
+    };
+
+    private bool GetControlDown(KeyMap control)
+    {
+        float result;
+        if ((result = Input.GetAxis(control.XBOXkey)) != control.PreviousFrame)
+        {
+            control.PreviousFrame = result;
+            if (result != 0)
+                return true;
+        }
+        if (Input.GetKeyDown(control.PCkey))
+            return true;
+        return false;
+    }
+
     // Update is called once per frame
+    float result, prevResult = 0;
     void Update()
     {
 
         if (this.Active)
         {
+
+            if (GetControlDown(PlayerControls.Activate)) {
+                _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
+            };
 
             var x = 0f;
             var y = rigidbody.velocity.y / MOVE_SPEED;
@@ -116,12 +159,12 @@ public class player : MonoBehaviour
 
             rigidbody.velocity = new Vector3(x, y, z) * MOVE_SPEED;
             
-            if (Input.GetMouseButtonDown(0))
-            {
-                _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
-				armsUp["Arms_Up2"].speed = 4.5f;
-				armsUp.Play("Arms_Up2");
-            }
+    //        if (Input.GetMouseButtonDown(0))
+    //        {
+    //            _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
+				//armsUp["Arms_Up2"].speed = 4.5f;
+				//armsUp.Play("Arms_Up2");
+    //        }
 
             if (Input.GetMouseButtonUp(0))
             {
