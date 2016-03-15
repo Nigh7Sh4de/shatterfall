@@ -72,12 +72,7 @@ public class main : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var created_player = (GameObject)Instantiate(player, GeneratePlayerPosition(i), Quaternion.Euler(new Vector3(0, 0, 0)));
-            created_player.name = "Player" + (i + 1);
-            if (i == 0)
-                continue;
-            var script = created_player.GetComponent<player>();
-            script.Active = false;
-            //script.enabled = false;
+            created_player.GetComponent<player>().InitPlayer(i + 1);
         }
     }
 

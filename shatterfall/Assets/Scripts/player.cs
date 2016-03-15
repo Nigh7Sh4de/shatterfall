@@ -105,16 +105,36 @@ public class player : MonoBehaviour
         public float PreviousFrame;
     }
 
-    private static class PlayerControls
+    public void InitPlayer(int n)
     {
-        public static KeyMap Activate = new KeyMap("Activate", KeyCode.Mouse1);
-        public static KeyMap Explode = new KeyMap("Explode", KeyCode.Mouse0);
-        public static KeyMap Jump = new KeyMap("Jump", KeyCode.Space);
-        public static KeyMap Horizontal = new KeyMap("Horizontal", KeyCode.Mouse0);
-        public static KeyMap Vertical = new KeyMap("Vertical", KeyCode.Mouse0);
-        public static KeyMap MoveHorizontal = new KeyMap("MoveHorizontal", KeyCode.D, KeyCode.A);
-        public static KeyMap MoveVertical = new KeyMap("MoveVertical", KeyCode.W, KeyCode.S);
-        public static KeyMap LockMouseMovement = new KeyMap("LockMouseMovement", KeyCode.Backslash);
+        gameObject.name = "Player" + n;
+        PC = new PlayerControls(n);
+    }
+
+    private PlayerControls PC;
+
+    private class PlayerControls
+    {
+        public KeyMap Activate;// = new KeyMap("Activate", KeyCode.Mouse1);
+        public KeyMap Explode;// = new KeyMap("Explode", KeyCode.Mouse0);
+        public KeyMap Jump;// = new KeyMap("Jump", KeyCode.Space);
+        public KeyMap Horizontal;// = new KeyMap("Horizontal", KeyCode.Mouse0);
+        public KeyMap Vertical;// = new KeyMap("Vertical", KeyCode.Mouse0);
+        public KeyMap MoveHorizontal;// = new KeyMap("MoveHorizontal", KeyCode.D, KeyCode.A);
+        public KeyMap MoveVertical;// = new KeyMap("MoveVertical", KeyCode.W, KeyCode.S);
+        public KeyMap LockMouseMovement;// = new KeyMap("LockMouseMovement", KeyCode.Backslash);
+
+        public PlayerControls(int n)
+        {
+            Activate = new KeyMap("Activate" + n, KeyCode.Mouse1);
+            Explode = new KeyMap("Explode" + n, KeyCode.Mouse0);
+            Jump = new KeyMap("Jump" + n, KeyCode.Space);
+            Horizontal = new KeyMap("Horizontal" + n, KeyCode.Mouse0);
+            Vertical = new KeyMap("Vertical" + n, KeyCode.Mouse0);
+            MoveHorizontal = new KeyMap("MoveHorizontal" + n, KeyCode.D, KeyCode.A);
+            MoveVertical = new KeyMap("MoveVertical" + n, KeyCode.W, KeyCode.S);
+            LockMouseMovement = new KeyMap("LockMouseMovement" + n, KeyCode.Backslash);
+    }
     };
 
     private bool GetControlDown(KeyMap control, bool upCheck = false)
@@ -159,8 +179,8 @@ public class player : MonoBehaviour
     private float? GetRotationAngle()
     {
         const float TURN_THRESHOLD = 0.6f;
-        var x = Input.GetAxis(PlayerControls.Horizontal.XBOXkey);
-        var y = Input.GetAxis(PlayerControls.Vertical.XBOXkey);
+        var x = Input.GetAxis(PC.Horizontal.XBOXkey);
+        var y = Input.GetAxis(PC.Vertical.XBOXkey);
         var theta = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
         if (Mathf.Abs(x) < TURN_THRESHOLD && Mathf.Abs(y) < TURN_THRESHOLD)
             return null;
@@ -185,25 +205,23 @@ public class player : MonoBehaviour
         if (this.Active)
         {
 
-            if (GetControlDown(PlayerControls.LockMouseMovement))
+            if (GetControlDown(PC.LockMouseMovement))
             {
                 lockMouseMovement = !lockMouseMovement;
                 Debug.Log("Swapping mouse and gamepad controlls for DIRECTION");
             }
 
-            //if (GetControlDown(PlayerControls.Activate, true))
-            if (GetControlDown(PlayerControls.Activate))
+            if (GetControlDown(PC.Activate))
             {
                 _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
             }
 
-            //if (GetControlUp(PlayerControls.Activate, true))
-            if (GetControlDown(PlayerControls.Explode))
+            if (GetControlDown(PC.Explode))
                 {
                 _orb.Explode();
             }
 
-            if (GetControlDown(PlayerControls.Jump))
+            if (GetControlDown(PC.Jump))
             {
                 rigidbody.velocity = Vector3.up * 0;
                 rigidbody.velocity += Vector3.up * 5;
@@ -213,9 +231,9 @@ public class player : MonoBehaviour
 
             //Movement:
 
-            var x = GetControlValue(PlayerControls.MoveHorizontal);
+            var x = GetControlValue(PC.MoveHorizontal);
             var y = rigidbody.velocity.y / MOVE_SPEED;
-            var z = GetControlValue(PlayerControls.MoveVertical);
+            var z = GetControlValue(PC.MoveVertical);
 
             rigidbody.velocity = new Vector3(x, y, z) * MOVE_SPEED;
 
