@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class player : MonoBehaviour
 {
@@ -11,13 +12,14 @@ public class player : MonoBehaviour
 
 
 	//player direction
-	public float mouseX1;
-	public float mouseY1;
-	public float mouseX2;
-	public float mouseY2;
-	public float mouseOffsetX;
-	public float mouseOffsetY;
-	public float direction;
+	float mouseX1;
+	float mouseY1;
+	float mouseX2;
+	float mouseY2;
+	float mouseOffsetX;
+	float mouseOffsetY;
+	float direction;
+    bool lockMouseMovement = true;
 
     private Vector3 knockback = Vector3.zero;
     private int knockback_counter = 0;
@@ -90,40 +92,89 @@ public class player : MonoBehaviour
 
     private class KeyMap
     {
-        public KeyMap(string x, KeyCode p)
+        public KeyMap(string x, KeyCode p, KeyCode? n = null)
         {
             XBOXkey = x;
             PCkey = p;
             PreviousFrame = 10;
+            nPCkey = n;
         }
         public string XBOXkey;
         public KeyCode PCkey;
+        public KeyCode? nPCkey;
         public float PreviousFrame;
     }
 
     private static class PlayerControls
     {
-        public static KeyMap Activate = new KeyMap("Activate", KeyCode.Mouse0);
-        public static KeyMap Explode = new KeyMap("Fire1", KeyCode.Mouse0);
-        public static KeyMap Horizontal = new KeyMap("Fire1", KeyCode.Mouse0);
-        public static KeyMap Vertical = new KeyMap("Fire1", KeyCode.Mouse0);
-        public static KeyMap Jump = new KeyMap("Fire1", KeyCode.Mouse0);
-        public static KeyMap MoveHorizontal = new KeyMap("Fire1", KeyCode.Mouse0);
-        public static KeyMap MoveVertical = new KeyMap("Fire1", KeyCode.Mouse0);
+        public static KeyMap Activate = new KeyMap("Activate", KeyCode.Mouse1);
+        public static KeyMap Explode = new KeyMap("Explode", KeyCode.Mouse0);
+        public static KeyMap Jump = new KeyMap("Jump", KeyCode.Space);
+        public static KeyMap Horizontal = new KeyMap("Horizontal", KeyCode.Mouse0);
+        public static KeyMap Vertical = new KeyMap("Vertical", KeyCode.Mouse0);
+        public static KeyMap MoveHorizontal = new KeyMap("MoveHorizontal", KeyCode.D, KeyCode.A);
+        public static KeyMap MoveVertical = new KeyMap("MoveVertical", KeyCode.W, KeyCode.S);
+        public static KeyMap LockMouseMovement = new KeyMap("LockMouseMovement", KeyCode.Backslash);
     };
 
-    private bool GetControlDown(KeyMap control)
+    private bool GetControlDown(KeyMap control, bool upCheck = false)
     {
         float result;
         if ((result = Input.GetAxis(control.XBOXkey)) != control.PreviousFrame)
         {
-            control.PreviousFrame = result;
-            if (result != 0)
+            if (!upCheck)
+                control.PreviousFrame = result;
+
+            if (result == 1)
+            {
+                control.PreviousFrame = result;
                 return true;
+            }
         }
         if (Input.GetKeyDown(control.PCkey))
             return true;
         return false;
+    }
+
+    private bool GetControlUp(KeyMap control, bool downCheck = false)
+    {
+        float result;
+        if ((result = Input.GetAxis(control.XBOXkey)) != control.PreviousFrame)
+        {
+            if (!downCheck)
+                control.PreviousFrame = result;
+
+            if (result == 0)
+            {
+                control.PreviousFrame = result;
+                return true;
+            }
+                
+        }
+        if (Input.GetKeyUp(control.PCkey))
+            return true;
+        return false;
+    }
+
+    private float? GetRotationAngle()
+    {
+        const float TURN_THRESHOLD = 0.6f;
+        var x = Input.GetAxis(PlayerControls.Horizontal.XBOXkey);
+        var y = Input.GetAxis(PlayerControls.Vertical.XBOXkey);
+        var theta = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
+        if (Mathf.Abs(x) < TURN_THRESHOLD && Mathf.Abs(y) < TURN_THRESHOLD)
+            return null;
+        return theta;
+    }
+
+    private float GetControlValue(KeyMap control)
+    {
+        if (Input.GetKey(control.PCkey))
+            return 1;
+        else if (Input.GetKey((KeyCode)control.nPCkey))
+            return -1;
+        else
+            return Input.GetAxis(control.XBOXkey);
     }
 
     // Update is called once per frame
@@ -134,72 +185,79 @@ public class player : MonoBehaviour
         if (this.Active)
         {
 
-            if (GetControlDown(PlayerControls.Activate)) {
-                _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
-            };
-
-            var x = 0f;
-            var y = rigidbody.velocity.y / MOVE_SPEED;
-            var z = 0f;
-
-            if (Input.GetKey(KeyCode.W))
-                z = 1;
-            else if (Input.GetKey(KeyCode.S))
-                z = -1;
-            if (Input.GetKey(KeyCode.A))
-                x = -1;
-            else if (Input.GetKey(KeyCode.D))
-                x = 1;
-
-            if (x != 0 && z != 0)
+            if (GetControlDown(PlayerControls.LockMouseMovement))
             {
-                x *= 0.707f;
-                z *= 0.707f;
+                lockMouseMovement = !lockMouseMovement;
+                Debug.Log("Swapping mouse and gamepad controlls for DIRECTION");
             }
 
-            rigidbody.velocity = new Vector3(x, y, z) * MOVE_SPEED;
-            
-    //        if (Input.GetMouseButtonDown(0))
-    //        {
-    //            _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
-				//armsUp["Arms_Up2"].speed = 4.5f;
-				//armsUp.Play("Arms_Up2");
-    //        }
-
-            if (Input.GetMouseButtonUp(0))
+            //if (GetControlDown(PlayerControls.Activate, true))
+            if (GetControlDown(PlayerControls.Activate))
             {
+                _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
+            }
+
+            //if (GetControlUp(PlayerControls.Activate, true))
+            if (GetControlDown(PlayerControls.Explode))
+                {
                 _orb.Explode();
             }
 
-            if (Input.GetKey(KeyCode.Space) && transform.position.y > 0.509 && transform.position.y < 0.519)
+            if (GetControlDown(PlayerControls.Jump))
             {
                 rigidbody.velocity = Vector3.up * 0;
                 rigidbody.velocity += Vector3.up * 5;
             }
 
-            //player direction
-            mouseX2 = Input.mousePosition.x;
-            mouseY2 = Input.mousePosition.y;
-            mouseOffsetX = mouseX2 - mouseX1;
-            mouseOffsetY = mouseY2 - mouseY1;
+            
 
-            if (Mathf.Abs(mouseOffsetX) > 2 || Mathf.Abs(mouseOffsetY) > 2)
+            //Movement:
+
+            var x = GetControlValue(PlayerControls.MoveHorizontal);
+            var y = rigidbody.velocity.y / MOVE_SPEED;
+            var z = GetControlValue(PlayerControls.MoveVertical);
+
+            rigidbody.velocity = new Vector3(x, y, z) * MOVE_SPEED;
+
+            //direction:
+
+            int curDirection, tarDirection;
+
+            if (lockMouseMovement)
             {
-                direction = -Mathf.Atan2(mouseOffsetY, mouseOffsetX) * (180 / Mathf.PI);
+                curDirection = (int)gameObject.transform.eulerAngles.y;
+                tarDirection = (int)curDirection;
+
+                var conAngle = GetRotationAngle();
+                if (conAngle != null)
+                    tarDirection = (int)conAngle;
             }
-            if (direction < 0)
+            else
             {
-                direction = 360 - Mathf.Abs(direction);
+                mouseX2 = Input.mousePosition.x;
+                mouseY2 = Input.mousePosition.y;
+                mouseOffsetX = mouseX2 - mouseX1;
+                mouseOffsetY = mouseY2 - mouseY1;
+
+                if (Mathf.Abs(mouseOffsetX) > 2 || Mathf.Abs(mouseOffsetY) > 2)
+                {
+                    direction = -Mathf.Atan2(mouseOffsetY, mouseOffsetX) * (180 / Mathf.PI);
+                }
+                if (direction < 0)
+                {
+                    direction = 360 - Mathf.Abs(direction);
+                }
+
+                curDirection = (int)gameObject.transform.eulerAngles.y;
+                tarDirection = (int)direction;
+
             }
 
-            var curDirection = (int)gameObject.transform.eulerAngles.y;
-            var tarDirection = (int)direction;
+            if (tarDirection < 0)
+                tarDirection += 360;
 
             if (curDirection != tarDirection)
             {
-                mouseX1 = mouseX2;
-                mouseY1 = mouseY2;
-
                 var delta = 0;
                 if (tarDirection - curDirection < -180)
                     delta = 1;
@@ -219,20 +277,22 @@ public class player : MonoBehaviour
             }
             else
                 rigidbody.angularVelocity = Vector3.zero;
-
+                
         }
 
+        //Knockback:
         if (knockback_counter-- > 0)
             rigidbody.velocity += knockback;
 
+        //Debug:
         var s = "";
         collisions.ForEach(c => s += c.name);
-
-        //Debug.Log(collisions.Count + ":::" + s);
 
         if (collisions.Count < 1 && transform.position.y < 0.511)
         {
             Physics.IgnoreCollision(thisCollider, floorCollider, true);
         }
     }
+
+    
 }
