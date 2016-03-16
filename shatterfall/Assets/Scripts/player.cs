@@ -308,6 +308,13 @@ public class player : MonoBehaviour
                 
         }
 
+        //Too low:
+        if (transform.position.y < 0)
+            this.Active = false;
+
+        if (transform.position.y < -25)
+            Destroy(gameObject);
+
         //Knockback:
         if (knockback_counter-- > 0)
             rigidbody.velocity += knockback;

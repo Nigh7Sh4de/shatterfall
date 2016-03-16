@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class orb : MonoBehaviour {
 
@@ -90,10 +91,24 @@ public class orb : MonoBehaviour {
             rigidbody.velocity = Vector3.down * Time.deltaTime * EXPLODE_RATE;
             exploding++;
         }
+        else if (OutOfBounds())
+        {
+            Reset();
+        }
         else
         {
             rigidbody.velocity = velocity * Time.deltaTime;
             rigidbody.angularVelocity = Vector3.zero;
         }
+    }
+
+    private bool OutOfBounds()
+    {
+        return (
+                transform.position.x < -2 ||
+                transform.position.x > 35 ||
+                transform.position.z < -17 ||
+                transform.position.z > 17
+            );
     }
 }
