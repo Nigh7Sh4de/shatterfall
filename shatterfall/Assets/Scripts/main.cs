@@ -16,8 +16,7 @@ public class main : MonoBehaviour
     void Start()
     {
         CreateFloor(8);
-        //var playerCount = selector.option + 2;
-        var playerCount = 4;
+        var playerCount = selector.option + 2;
         CreatePlayer(playerCount);
     }
 

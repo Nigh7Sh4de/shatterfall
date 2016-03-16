@@ -94,7 +94,7 @@ public class player : MonoBehaviour
 
     }
 
-    private class KeyMap
+    public class KeyMap
     {
         public KeyMap(string x, KeyCode p, KeyCode? n = null)
         {
@@ -195,7 +195,7 @@ public class player : MonoBehaviour
         return theta;
     }
 
-    private float GetControlValue(KeyMap control)
+    public static float GetControlValue(KeyMap control)
     {
         if (Input.GetKey(control.PCkey))
             return 1;
