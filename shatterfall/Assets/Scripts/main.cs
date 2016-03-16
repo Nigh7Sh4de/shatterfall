@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class main : MonoBehaviour
 {
@@ -11,6 +12,16 @@ public class main : MonoBehaviour
     public Material[] PlayerMaterial = new Material[4];
 
     static GameObject floorInstance;
+
+    private static List<GameObject> Players = new List<GameObject>();
+
+    public static void PlayerDied(GameObject deadPlayer)
+    {
+        Players.Remove(deadPlayer);
+
+        if (Players.Count <= 1)
+            Debug.Log("WIN " + Players[0].name);
+    }
 
     // Use this for initialization
     void Start()
@@ -76,6 +87,7 @@ public class main : MonoBehaviour
         {
             var created_player = (GameObject)Instantiate(player, GeneratePlayerPosition(i), Quaternion.Euler(new Vector3(0, 0, 0)));
             created_player.GetComponent<player>().InitPlayer(i + 1, PlayerMaterial[i]);
+            Players.Add(created_player);
         }
     }
 

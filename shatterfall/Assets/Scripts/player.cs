@@ -62,6 +62,7 @@ public class player : MonoBehaviour
 
     public void Die()
     {
+        main.PlayerDied(gameObject);
         _orb.Die();
         Destroy(gameObject);
     }
@@ -313,7 +314,7 @@ public class player : MonoBehaviour
             this.Active = false;
 
         if (transform.position.y < -25)
-            Destroy(gameObject);
+            Die();
 
         //Knockback:
         if (knockback_counter-- > 0)
