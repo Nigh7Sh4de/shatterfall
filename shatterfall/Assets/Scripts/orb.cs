@@ -6,12 +6,18 @@ public class orb : MonoBehaviour {
     new Rigidbody rigidbody;
     Vector3 velocity;
     Quaternion direction;
+    Material HighlightMaterial;
 
     private int exploding = 0;
 
     private const int SPEED = 1000;
-    private const int EXPLODE_DURATION = 60;
+    private const int EXPLODE_DURATION = 10;
     private const int EXPLODE_RATE = 1000;
+
+    public void SetHighlightMaterial(Material material)
+    {
+        HighlightMaterial = material;
+    }
 
     void Awake() {
         rigidbody = GetComponent<Rigidbody>();
@@ -28,7 +34,7 @@ public class orb : MonoBehaviour {
     {
         var floor = other.GetComponent<floor>();
         if (floor != null)
-            floor.Highlight();
+            floor.Highlight(HighlightMaterial);
     }
 
     void OnTriggerStay(Collider other)
@@ -55,6 +61,7 @@ public class orb : MonoBehaviour {
     public void Activate(Vector3 position, Quaternion rotation)
     {
         Reset();
+        position.y = 2.51f;
         transform.position = position;
         transform.rotation = direction = rotation;
         gameObject.SetActive(true);

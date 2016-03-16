@@ -4,15 +4,15 @@ using System.Collections;
 public class floor : MonoBehaviour {
 
     public Material OriginalMaterial;
-    public Material HighlightedMaterial;
+    //public Material HighlightedMaterial;
 
     Rigidbody rigidbody;
     BoxCollider collider;
     Renderer renderer;
 
-    public void Highlight()
+    public void Highlight(Material material)
     {
-        renderer.material = HighlightedMaterial;
+        renderer.material = material;
     }
 
     public void UnHighlight()

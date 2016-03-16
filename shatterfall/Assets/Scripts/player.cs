@@ -11,8 +11,8 @@ public class player : MonoBehaviour
     public bool Active = true;
 
 
-	//player direction
-	float mouseX1;
+    //player direction
+    float mouseX1;
 	float mouseY1;
 	float mouseX2;
 	float mouseY2;
@@ -24,6 +24,9 @@ public class player : MonoBehaviour
     private Vector3 knockback = Vector3.zero;
     private int knockback_counter = 0;
     new Rigidbody rigidbody;
+    new Renderer renderer;
+    Material material;
+
     float MOVE_SPEED = 5f;
     int TURN_SPEED = 1000;
     //turnForceScale;
@@ -83,6 +86,7 @@ public class player : MonoBehaviour
         var clone = Instantiate(orb);
         clone.SetActive(false);
         _orb = clone.GetComponent<orb>();
+        _orb.SetHighlightMaterial(material);
 
 		mouseX1 = Input.mousePosition.x;
 		mouseY1 = Input.mousePosition.y;
@@ -105,10 +109,14 @@ public class player : MonoBehaviour
         public float PreviousFrame;
     }
 
-    public void InitPlayer(int n)
+    public void InitPlayer(int n, Material m)
     {
         gameObject.name = "Player" + n;
         PC = new PlayerControls(n);
+        material = m;
+        var renderers = GetComponentsInChildren<Renderer>();
+        foreach (var r in renderers)
+            r.material = m;
     }
 
     private PlayerControls PC;
@@ -211,9 +219,11 @@ public class player : MonoBehaviour
                 Debug.Log("Swapping mouse and gamepad controlls for DIRECTION");
             }
 
-            if (GetControlDown(PC.Activate))
+            if (GetControlDown(PC.Activate) && !_orb.gameObject.activeSelf)
             {
                 _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
+                armsUp["Arms_Up2"].speed = 4.5f;
+                armsUp.Play("Arms_Up2");
             }
 
             if (GetControlDown(PC.Explode))
@@ -221,7 +231,7 @@ public class player : MonoBehaviour
                 _orb.Explode();
             }
 
-            if (GetControlDown(PC.Jump))
+            if (GetControlDown(PC.Jump) && transform.position.y > 0.509 && transform.position.y < 0.519)
             {
                 rigidbody.velocity = Vector3.up * 0;
                 rigidbody.velocity += Vector3.up * 5;

@@ -8,13 +8,17 @@ public class main : MonoBehaviour
     public GameObject player;
     public GameObject floor;
 
+    public Material[] PlayerMaterial = new Material[4];
+
     static GameObject floorInstance;
 
     // Use this for initialization
     void Start()
     {
         CreateFloor(8);
-        CreatePlayer(4);
+        //var playerCount = selector.option + 2;
+        var playerCount = 4;
+        CreatePlayer(playerCount);
     }
 
     // Update is called once per frame
@@ -72,7 +76,7 @@ public class main : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var created_player = (GameObject)Instantiate(player, GeneratePlayerPosition(i), Quaternion.Euler(new Vector3(0, 0, 0)));
-            created_player.GetComponent<player>().InitPlayer(i + 1);
+            created_player.GetComponent<player>().InitPlayer(i + 1, PlayerMaterial[i]);
         }
     }
 
