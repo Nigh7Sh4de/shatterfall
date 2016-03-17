@@ -44,7 +44,7 @@ public class floor : MonoBehaviour {
             transform.position = new Vector3(transform.position.x * 1, transform.position.y - 1, transform.position.z * 1);
 
 
-        else if (transform.position.y < -50)
+        else if (transform.position.y < -200)
             Die();
     }
 }
