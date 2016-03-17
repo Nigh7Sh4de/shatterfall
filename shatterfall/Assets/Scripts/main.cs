@@ -11,7 +11,7 @@ public class main : MonoBehaviour
     public Material[] PlayerMaterial = new Material[4];
     static GameObject floorInstance;
     private static List<GameObject> Players = new List<GameObject>();
-
+    public static string WinnerName;
 
 
     public static void PlayerDied(GameObject deadPlayer)
@@ -21,6 +21,7 @@ public class main : MonoBehaviour
         if (Players.Count == 1) {
 			//Debug.Log ("WIN " + Players [0].name);
             Players[0].GetComponent<player>().Win();
+            WinnerName = Players[0].name;
             Players.Remove(Players[0]);
 		}
     }
