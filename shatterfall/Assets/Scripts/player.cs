@@ -311,7 +311,10 @@ public class player : MonoBehaviour
 
                 var angle = Time.deltaTime * TURN_SPEED * delta;
 
-                if (Mathf.Abs(tarDirection - curDirection) < 15)
+                Debug.Log(tarDirection);
+                var a = Mathf.Abs(tarDirection - curDirection);
+
+                if (a < 45 || a > 315)
                     gameObject.transform.eulerAngles = new Vector3(0, tarDirection, 0);
                 else
                     gameObject.transform.eulerAngles = new Vector3(0, curDirection + angle, 0);
