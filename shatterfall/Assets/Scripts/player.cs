@@ -190,7 +190,7 @@ public class player : MonoBehaviour
         const float TURN_THRESHOLD = 0.6f;
         var x = Input.GetAxis(PC.Horizontal.XBOXkey);
         var y = Input.GetAxis(PC.Vertical.XBOXkey);
-        var theta = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
+        var theta = Mathf.Atan2(y, x) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
         if (Mathf.Abs(x) < TURN_THRESHOLD && Mathf.Abs(y) < TURN_THRESHOLD)
             return null;
         return theta;

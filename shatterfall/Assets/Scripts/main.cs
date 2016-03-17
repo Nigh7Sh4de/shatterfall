@@ -8,19 +8,21 @@ public class main : MonoBehaviour
     public GameObject triangle;
     public GameObject player;
     public GameObject floor;
-
     public Material[] PlayerMaterial = new Material[4];
-
     static GameObject floorInstance;
-
     private static List<GameObject> Players = new List<GameObject>();
+
+
 
     public static void PlayerDied(GameObject deadPlayer)
     {
         Players.Remove(deadPlayer);
 
-        if (Players.Count <= 1)
-            Debug.Log("WIN " + Players[0].name);
+        if (Players.Count == 1) {
+			Debug.Log ("WIN " + Players [0].name);
+			Players.Remove(Players [0]);
+			Application.LoadLevel("WinnerMenu");
+		}
     }
 
     // Use this for initialization
