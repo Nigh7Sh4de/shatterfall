@@ -8,7 +8,6 @@ public class player : MonoBehaviour
     public GameObject floor;
     public GameObject orb;
     orb _orb;
-    Camera camera;
     public bool Active = true;
     int flying = -1;
 
@@ -33,7 +32,7 @@ public class player : MonoBehaviour
     //turnForceScale;
     Collider thisCollider, floorCollider;
     List<Collider> collisions = new List<Collider>();
-	new Animation armsUp;
+	Animation armsUp;
 
     void OnCollisionEnter(Collision col)
     {
@@ -57,7 +56,8 @@ public class player : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         //Debug.Log("LEFT:" + other.name);
-        if (!collisions.Remove(other)) ;
+        //if (!collisions.Remove(other)) ;
+        collisions.Remove(other);
             //Debug.LogError("HOLY FLYING FUCK KILL YOURSELF!");
     }
 
@@ -118,7 +118,6 @@ public class player : MonoBehaviour
 
     public void InitPlayer(Camera cam, int n, Material m)
     {
-        camera = cam;
         gameObject.name = "Player" + n;
         PC = new PlayerControls(n);
         //PC = new PlayerControls(5 - n);
@@ -250,7 +249,7 @@ public class player : MonoBehaviour
 
             //Movement:
 
-            var forward = camera.transform.TransformDirection(Vector3.forward);
+            var forward = Camera.main.transform.TransformDirection(Vector3.forward);
             forward.y = 0;
             forward = forward.normalized;
             var right = new Vector3(forward.z, 0, -forward.x);
@@ -260,7 +259,7 @@ public class player : MonoBehaviour
             var y = rigidbody.velocity.y / MOVE_SPEED;
             var z = GetControlValue(PC.MoveVertical);
 
-            rigidbody.velocity = (x * right + z * forward) * MOVE_SPEED;
+            rigidbody.velocity = (x * right + z * forward + y * Vector3.up) * MOVE_SPEED;
 
             //direction:
 
