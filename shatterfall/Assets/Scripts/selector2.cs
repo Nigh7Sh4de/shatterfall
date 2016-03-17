@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class selector2 : MonoBehaviour {
 	
 	public static int option;
 	public List<GameObject> uiChoices;
+	public Text PlayerWin;
+	public static int winner;
 	
 	// Use this for initialization
 	void Start () {
@@ -17,7 +20,8 @@ public class selector2 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+		PlayerWin.text = "P L A Y E R   " + winner + "   W I N S !";
 		if (Input.GetAxis("MoveVertical1") == 0)
 			ready = true;
 		
