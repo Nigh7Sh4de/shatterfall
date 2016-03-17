@@ -8,6 +8,7 @@ public class player : MonoBehaviour
     public GameObject floor;
     public GameObject orb;
     orb _orb;
+    Camera camera;
     public bool Active = true;
     int flying = -1;
 
@@ -115,10 +116,12 @@ public class player : MonoBehaviour
         flying = 0;
     }
 
-    public void InitPlayer(int n, Material m)
+    public void InitPlayer(Camera cam, int n, Material m)
     {
+        camera = cam;
         gameObject.name = "Player" + n;
-        PC = new PlayerControls(5 - n);
+        PC = new PlayerControls(n);
+        //PC = new PlayerControls(5 - n);
         material = m;
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var r in renderers)
@@ -243,15 +246,21 @@ public class player : MonoBehaviour
                 rigidbody.velocity += Vector3.up * 5;
             }
 
-            
+
 
             //Movement:
+
+            var forward = camera.transform.TransformDirection(Vector3.forward);
+            forward.y = 0;
+            forward = forward.normalized;
+            var right = new Vector3(forward.z, 0, -forward.x);
+
 
             var x = GetControlValue(PC.MoveHorizontal);
             var y = rigidbody.velocity.y / MOVE_SPEED;
             var z = GetControlValue(PC.MoveVertical);
 
-            rigidbody.velocity = new Vector3(x, y, z) * MOVE_SPEED;
+            rigidbody.velocity = (x * right + z * forward) * MOVE_SPEED;
 
             //direction:
 

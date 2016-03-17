@@ -29,6 +29,7 @@ public class main : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Players.Clear();
         CreateFloor(8);
         var playerCount = selector.option + 2;
         CreatePlayer(playerCount);
@@ -89,7 +90,7 @@ public class main : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var created_player = (GameObject)Instantiate(player, GeneratePlayerPosition(i), Quaternion.Euler(new Vector3(0, 0, 0)));
-            created_player.GetComponent<player>().InitPlayer(i + 1, PlayerMaterial[i]);
+            created_player.GetComponent<player>().InitPlayer(this.GetComponent<Camera>(), i + 1, PlayerMaterial[i]);
             Players.Add(created_player);
         }
     }
