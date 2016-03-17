@@ -9,7 +9,7 @@ public class player : MonoBehaviour
     public GameObject orb;
     orb _orb;
     public bool Active = true;
-
+    int flying = -1;
 
     //player direction
     float mouseX1;
@@ -108,6 +108,12 @@ public class player : MonoBehaviour
         public KeyCode PCkey;
         public KeyCode? nPCkey;
         public float PreviousFrame;
+    }
+
+    public void Win()
+    {
+        this.Active = false;
+        flying = 0;
     }
 
     public void InitPlayer(int n, Material m)
@@ -316,9 +322,19 @@ public class player : MonoBehaviour
         if (transform.position.y < -25)
             Die();
 
+        if (transform.position.y > 25)
+            Die();
+
         //Knockback:
         if (knockback_counter-- > 0)
             rigidbody.velocity += knockback;
+
+        //Flying:
+        if (flying >= 0)
+        {
+            transform.eulerAngles += new Vector3(0, 360 * Time.deltaTime, 0);
+            rigidbody.velocity += Vector3.up * 25 * Time.deltaTime;
+        }
 
         //Debug:
         var s = "";

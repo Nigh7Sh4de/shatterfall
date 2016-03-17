@@ -11,7 +11,7 @@ public class orb : MonoBehaviour {
 
     private int exploding = 0;
 
-    private const int SPEED = 1000;
+    private const int SPEED = 500;
     private const int EXPLODE_DURATION = 10;
     private const int EXPLODE_RATE = 1000;
 

@@ -19,8 +19,11 @@ public class main : MonoBehaviour
     {
         Players.Remove(deadPlayer);
 
-        if (Players.Count <= 1)
-            Debug.Log("WIN " + Players[0].name);
+        if (Players.Count == 1)
+        {
+            //Debug.Log("WIN " + Players[0].name);
+            Players[0].GetComponent<player>().Win();
+        }
     }
 
     // Use this for initialization
