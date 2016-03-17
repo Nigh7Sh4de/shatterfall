@@ -2,14 +2,15 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/selector2.cs">
     <Files>
-      <File FileName="Assets/Scripts/main.cs" Line="26" Column="6" />
-      <File FileName="Assets/Scripts/selector.cs" Line="12" Column="14" />
+      <File FileName="Assets/Scripts/main.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/player.cs" Line="120" Column="28" />
       <File FileName="Assets/Scripts/floor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/scroll.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/orb.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/MenuTriangle.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/selector2.cs" Line="49" Column="5" />
+      <File FileName="Assets/Scripts/selector2.cs" Line="41" Column="14" />
+      <File FileName="Assets/Scripts/winner.cs" Line="35" Column="3" />
+      <File FileName="Assets/Scripts/selector.cs" Line="15" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
