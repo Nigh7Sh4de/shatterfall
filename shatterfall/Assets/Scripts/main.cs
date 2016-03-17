@@ -36,7 +36,7 @@ public class main : MonoBehaviour
             if (f == null)
                 continue;
 
-            f.Drop();
+            f.Drop(true);
         }
     }
 

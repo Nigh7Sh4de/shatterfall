@@ -19,12 +19,15 @@ public class floor : MonoBehaviour {
         renderer.material = OriginalMaterial;
     }
 
-    public void Drop()
+    public void Drop(bool end = false)
     {
-        rigidbody.velocity = new Vector3(Random.value, -2 * Random.value, Random.value) * 20;
+        if (end)
+        {
+            rigidbody.velocity = new Vector3(Random.value, -2 * Random.value, Random.value) * 2;
+            rigidbody.angularVelocity = new Vector3(Random.value, Random.value, Random.value) * 45 * Time.deltaTime;
+        }
         rigidbody.isKinematic = false;
         rigidbody.useGravity = true;
-        //gameObject.layer = 12;
     }
 
     public void Die()
