@@ -21,6 +21,7 @@ public class floor : MonoBehaviour {
 
     public void Drop()
     {
+        rigidbody.velocity = new Vector3(Random.value, -2 * Random.value, Random.value) * 20;
         rigidbody.isKinematic = false;
         rigidbody.useGravity = true;
         //gameObject.layer = 12;

@@ -23,7 +23,21 @@ public class main : MonoBehaviour
             Players[0].GetComponent<player>().Win();
             WinnerName = Players[0].name;
             Players.Remove(Players[0]);
+            BreakFloor();
 		}
+    }
+
+    static void BreakFloor()
+    {
+        var go = GameObject.FindObjectsOfType<GameObject>();
+        foreach (var g in go)
+        {
+            var f = g.GetComponent<floor>();
+            if (f == null)
+                continue;
+
+            f.Drop();
+        }
     }
 
     // Use this for initialization

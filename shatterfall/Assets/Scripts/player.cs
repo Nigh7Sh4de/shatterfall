@@ -331,7 +331,7 @@ public class player : MonoBehaviour
         if (transform.position.y < -25)
             Die();
 
-        if (transform.position.y > 10)
+        if (transform.position.y > 30)
         {
             Die();
             Application.LoadLevel("WinnerMenu");
