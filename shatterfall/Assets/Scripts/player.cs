@@ -62,7 +62,6 @@ public class player : MonoBehaviour
 
     public void Die()
     {
-        main.PlayerDied(gameObject);
         _orb.Die();
         Destroy(gameObject);
     }
@@ -119,7 +118,7 @@ public class player : MonoBehaviour
     public void InitPlayer(int n, Material m)
     {
         gameObject.name = "Player" + n;
-        PC = new PlayerControls(n);
+        PC = new PlayerControls(5 - n);
         material = m;
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var r in renderers)
@@ -196,7 +195,7 @@ public class player : MonoBehaviour
         const float TURN_THRESHOLD = 0.6f;
         var x = Input.GetAxis(PC.Horizontal.XBOXkey);
         var y = Input.GetAxis(PC.Vertical.XBOXkey);
-        var theta = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
+        var theta = Mathf.Atan2(y, x) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
         if (Mathf.Abs(x) < TURN_THRESHOLD && Mathf.Abs(y) < TURN_THRESHOLD)
             return null;
         return theta;
@@ -317,13 +316,20 @@ public class player : MonoBehaviour
 
         //Too low:
         if (transform.position.y < 0)
+        {
             this.Active = false;
+            main.PlayerDied(gameObject);
+        }
 
         if (transform.position.y < -25)
             Die();
 
-        if (transform.position.y > 25)
+        if (transform.position.y > 10)
+        {
             Die();
+            Application.LoadLevel("WinnerMenu");
+
+        }
 
         //Knockback:
         if (knockback_counter-- > 0)
