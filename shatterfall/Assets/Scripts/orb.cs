@@ -6,7 +6,6 @@ public class orb : MonoBehaviour {
 
     new Rigidbody rigidbody;
     Vector3 velocity;
-    Quaternion direction;
     Material HighlightMaterial;
 
     private int exploding = 0;
@@ -64,7 +63,7 @@ public class orb : MonoBehaviour {
         Reset();
         position.y = 2.51f;
         transform.position = position;
-        transform.rotation = direction = rotation;
+        transform.rotation = rotation;
         gameObject.SetActive(true);
         var angle = Mathf.Deg2Rad * (transform.rotation.eulerAngles.y + 90);
         velocity = new Vector3(Mathf.Sin(angle) * SPEED, 0, SPEED * Mathf.Cos(angle));

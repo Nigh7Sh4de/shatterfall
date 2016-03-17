@@ -214,7 +214,6 @@ public class player : MonoBehaviour
     }
 
     // Update is called once per frame
-    float result, prevResult = 0;
     void Update()
     {
 

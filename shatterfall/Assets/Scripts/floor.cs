@@ -6,9 +6,8 @@ public class floor : MonoBehaviour {
     public Material OriginalMaterial;
     //public Material HighlightedMaterial;
 
-    Rigidbody rigidbody;
-    BoxCollider collider;
-    Renderer renderer;
+    new Rigidbody rigidbody;
+    new Renderer renderer;
 
     public void Highlight(Material material)
     {
@@ -24,7 +23,6 @@ public class floor : MonoBehaviour {
     {
         rigidbody.isKinematic = false;
         rigidbody.useGravity = true;
-        //collider.isTrigger = false;
         //gameObject.layer = 12;
     }
 
@@ -36,7 +34,6 @@ public class floor : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rigidbody = gameObject.GetComponent<Rigidbody>();
-        collider = gameObject.GetComponent<BoxCollider>();
         renderer = gameObject.GetComponent<Renderer>();
     }
 	
