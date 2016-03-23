@@ -27,11 +27,12 @@ public class player : MonoBehaviour
     new Renderer renderer;
     Material material;
 
+    static int MAXIMUM_FLOAT_FRAMES = 2; //To be safe
     float MOVE_SPEED = 5f;
     int TURN_SPEED = 1000;
     //turnForceScale;
     Collider thisCollider, floorCollider;
-    List<Collider> collisions = new List<Collider>();
+    List<FloorPiece> collisions = new List<FloorPiece>();
 	Animation armsUp;
 
     void OnCollisionEnter(Collision col)
@@ -47,19 +48,43 @@ public class player : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    private class FloorPiece
     {
-        if (collisions.Find(o => o.GetInstanceID() == other.GetInstanceID()) == null)
-            collisions.Add(other);
+        public FloorPiece(Collider c)
+        {
+            collider = c;
+            Frames = MAXIMUM_FLOAT_FRAMES;
+        }
+        public Collider collider;
+        public int Frames;
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerStay(Collider other)
     {
-        //Debug.Log("LEFT:" + other.name);
-        //if (!collisions.Remove(other)) ;
-        collisions.Remove(other);
-            //Debug.LogError("HOLY FLYING FUCK KILL YOURSELF!");
+        var found = collisions.Find(c => c.collider.GetInstanceID() == other.GetInstanceID());
+        if (found == null)
+        {
+            found = new FloorPiece(other);
+            collisions.Add(found);
+        }
+        found.Frames = MAXIMUM_FLOAT_FRAMES;
     }
+
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    var fp = (FloorPiece)other;
+    //    fp.Frames = 3;
+    //    //if (collisions.Find(o => o.GetInstanceID() == fp.GetInstanceID()) == null)
+    //        collisions.Add(fp);
+    //}
+
+    //void OnTriggerExit(Collider other)
+    //{
+    //    //Debug.Log("LEFT:" + other.name);
+    //    //if (!collisions.Remove(other)) ;
+    //    collisions.Remove((FloorPiece)other);
+    //        //Debug.LogError("HOLY FLYING FUCK KILL YOURSELF!");
+    //}
 
     public void Die()
     {
@@ -311,7 +336,7 @@ public class player : MonoBehaviour
 
                 var angle = Time.deltaTime * TURN_SPEED * delta;
 
-                Debug.Log(tarDirection);
+                //Debug.Log(tarDirection);
                 var a = Mathf.Abs(tarDirection - curDirection);
 
                 if (a < 45 || a > 315)
@@ -353,8 +378,12 @@ public class player : MonoBehaviour
         }
 
         //Debug:
-        var s = "";
-        collisions.ForEach(c => s += c.name);
+        //var s = "";
+        //collisions.ForEach(c => s += c.name);
+
+        for (var i=0;i<collisions.Count; i++)
+            if (--collisions[i].Frames < 0)
+                collisions.Remove(collisions[i--]);
 
         if (collisions.Count < 1 && transform.position.y < 0.511)
         {

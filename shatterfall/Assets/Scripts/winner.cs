@@ -16,7 +16,7 @@ public class winner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log (main.WinnerName);
+		//Debug.Log (main.WinnerName);
 		if(string.Compare(main.WinnerName, "Player1") == 0) 
 			winnerNumber = 1;
 		else if(string.Compare(main.WinnerName, "Player2") == 0) 
