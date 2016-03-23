@@ -251,16 +251,17 @@ public class player : MonoBehaviour
                 Debug.Log("Swapping mouse and gamepad controlls for DIRECTION");
             }
 
-            if (GetControlDown(PC.Activate) && !_orb.gameObject.activeSelf)
+            if (GetControlDown(PC.Explode) || GetControlDown(PC.Activate))
             {
-                _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
-                armsUp["Arms_Up2"].speed = 4.5f;
-                armsUp.Play("Arms_Up2");
-            }
-
-            if (GetControlDown(PC.Explode))
+                if (_orb.gameObject.activeSelf)
+                    _orb.Explode();
+                else
                 {
-                _orb.Explode();
+                    _orb.Activate(transform.position + new Vector3(0, 2, 0), transform.rotation);
+                    armsUp["Arms_Up2"].speed = 4.5f;
+                    armsUp.Play("Arms_Up2");
+                }
+                    
             }
 
             if (GetControlDown(PC.Jump) && transform.position.y > 0.509 && transform.position.y < 0.519)
