@@ -36,11 +36,15 @@ public class floor : MonoBehaviour {
 
         if (end)
         {
-            rigidbody.velocity = new Vector3(Random.value, -2 * Random.value, Random.value) * 2;
-            rigidbody.angularVelocity = new Vector3(Random.value, Random.value, Random.value) * 45 * Time.deltaTime;
+            //rigidbody.velocity = new Vector3(Random.value, -2 * Random.value, Random.value) * 2;
+            //rigidbody.angularVelocity = new Vector3(Random.value, Random.value, Random.value) * 45 * Time.deltaTime;
         }
-        rigidbody.isKinematic = false;
-        rigidbody.useGravity = true;
+        else
+        {
+            rigidbody.isKinematic = false;
+            rigidbody.useGravity = true;
+        }
+        
     }
 
     public void Die()
