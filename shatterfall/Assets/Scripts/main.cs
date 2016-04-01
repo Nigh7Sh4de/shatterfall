@@ -12,7 +12,7 @@ public class main : MonoBehaviour
     static GameObject floorInstance;
     private static List<GameObject> Players = new List<GameObject>();
     public static string WinnerName;
-
+	
 
     public static void PlayerDied(GameObject deadPlayer)
     {

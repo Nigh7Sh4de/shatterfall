@@ -10,12 +10,16 @@ public class selector : MonoBehaviour {
 	public bool selectable;
 	public GameObject howToPlay;
 
+	public AudioClip selectSound;
+	private AudioSource source;
+
+
     // Use this for initialization
     void Start () {
+		source = GetComponent<AudioSource>();
 		option = 0;
 		transform.localScale = uiChoices [0].transform.localScale * 9f;
 		selectable = true;
-		//howToPlay = GameObject.Find ("Shatterfall_HowToPlay");
 		howToPlay.SetActive (false);
 	}
 
@@ -37,7 +41,8 @@ public class selector : MonoBehaviour {
 		if (Input.GetAxis ("MoveVertical1") + Input.GetAxis ("MoveVertical2") + Input.GetAxis ("MoveVertical3") + Input.GetAxis ("MoveVertical4") == 0)
 			ready = true;
 
-		if (Input.GetKeyDown (KeyCode.UpArrow) || Input.GetAxis ("MoveVertical") > 0 && ready && selectable) {
+		if ((Input.GetKeyDown (KeyCode.UpArrow) || Input.GetAxis ("MoveVertical") > 0) && ready && selectable) {
+			source.PlayOneShot (selectSound, 1F);
 			ready = false;
 			if (option == 0) {
 				option = uiChoices.Count - 1;
@@ -45,7 +50,8 @@ public class selector : MonoBehaviour {
 				option--;
 			}
 		}
-		if (Input.GetKeyDown (KeyCode.DownArrow) || Input.GetAxis ("MoveVertical") < 0 && ready) {
+		if ((Input.GetKeyDown (KeyCode.DownArrow) || Input.GetAxis ("MoveVertical") < 0) && ready && selectable) {
+			source.PlayOneShot (selectSound, 1F);
 			ready = false;
 			if (option == uiChoices.Count - 1) {
 				option = 0;
@@ -58,8 +64,10 @@ public class selector : MonoBehaviour {
 
 		if ((Input.GetKeyDown (KeyCode.Space) || Input.GetAxis ("Jump") > 0)) {
 			if (option < 3) {
+				source.PlayOneShot (selectSound, 1F);
 				Application.LoadLevel ("main");
 			} else {
+				source.PlayOneShot (selectSound, 1F);
 				toggleInstructions ();
 			}
 		}

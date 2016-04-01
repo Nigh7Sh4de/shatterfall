@@ -14,6 +14,9 @@ public class orb : MonoBehaviour {
     private const int EXPLODE_DURATION = 10;
     private const int EXPLODE_RATE = 1000;
 
+	private AudioSource source;
+	public AudioClip shootSound;
+
     public void SetHighlightMaterial(Material material)
     {
         HighlightMaterial = material;
@@ -21,6 +24,8 @@ public class orb : MonoBehaviour {
 
     void Awake() {
         rigidbody = GetComponent<Rigidbody>();
+		source = GetComponent<AudioSource>();
+		source.PlayOneShot (shootSound, 1F);
     }
 
     void OnTriggerExit(Collider other)
