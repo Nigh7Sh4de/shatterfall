@@ -6,12 +6,15 @@ public class selector : MonoBehaviour {
 	
 	public static int option;
 	public List<GameObject> uiChoices;
-	public bool ready;
+	private float ready = 0;
+    private float READY_DELAY = 0.2f;
 	public bool selectable;
 	public GameObject howToPlay;
 
 	public AudioClip selectSound;
 	private AudioSource source;
+
+    private float TOGGLE_THRESHOLD = 0.6f;
 
 
     // Use this for initialization
@@ -38,22 +41,23 @@ public class selector : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetAxis ("MoveVertical1") + Input.GetAxis ("MoveVertical2") + Input.GetAxis ("MoveVertical3") + Input.GetAxis ("MoveVertical4") == 0)
-			ready = true;
+        if (ready > 0)
+            ready -= Time.deltaTime;
 
-		if ((Input.GetKeyDown (KeyCode.UpArrow) || Input.GetAxis ("MoveVertical") > 0) && ready && selectable) {
+		if ((Input.GetKey (KeyCode.UpArrow) || (Input.GetAxis ("MoveVertical") > TOGGLE_THRESHOLD)) && ready <= 0 && selectable) {
 			source.PlayOneShot (selectSound, 1F);
-			ready = false;
+			ready = READY_DELAY;
 			if (option == 0) {
 				option = uiChoices.Count - 1;
 			} else {
 				option--;
 			}
 		}
-		if ((Input.GetKeyDown (KeyCode.DownArrow) || Input.GetAxis ("MoveVertical") < 0) && ready && selectable) {
-			source.PlayOneShot (selectSound, 1F);
-			ready = false;
-			if (option == uiChoices.Count - 1) {
+        if ((Input.GetKey(KeyCode.DownArrow) || (Input.GetAxis("MoveVertical") < -TOGGLE_THRESHOLD)) && ready <= 0 && selectable)
+        {
+            source.PlayOneShot (selectSound, 1F);
+			ready = READY_DELAY;
+            if (option == uiChoices.Count - 1) {
 				option = 0;
 			} else {
 				option++;
