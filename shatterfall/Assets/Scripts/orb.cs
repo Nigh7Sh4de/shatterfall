@@ -109,8 +109,8 @@ public class orb : MonoBehaviour {
     private bool OutOfBounds()
     {
         return (
-                transform.position.x < -2 ||
-                transform.position.x > 35 ||
+                transform.position.x < -10 ||
+                transform.position.x > 40 ||
                 transform.position.z < -17 ||
                 transform.position.z > 17
             );
