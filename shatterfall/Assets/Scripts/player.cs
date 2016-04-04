@@ -353,6 +353,7 @@ public class player : MonoBehaviour
         //Too low:
         if (transform.position.y < 0)
         {
+            _orb.Explode(true);
             this.Active = false;
             main.PlayerDied(gameObject);
         }

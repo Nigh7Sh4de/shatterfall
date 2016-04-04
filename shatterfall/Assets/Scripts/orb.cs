@@ -17,6 +17,8 @@ public class orb : MonoBehaviour {
 	private AudioSource source;
 	public AudioClip shootSound;
 
+    private bool nope = false;
+
     public void SetHighlightMaterial(Material material)
     {
         HighlightMaterial = material;
@@ -44,7 +46,7 @@ public class orb : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
-        if (exploding > 0)
+        if (exploding > 0 && !nope)
         {
             floor floor = null;
             if ((floor = other.GetComponent<floor>()) != null)
@@ -57,8 +59,9 @@ public class orb : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public void Explode()
+    public void Explode(bool nope = false)
     {
+        this.nope = nope;
         exploding++;
         rigidbody.velocity = Vector3.zero;
     }
@@ -92,7 +95,7 @@ public class orb : MonoBehaviour {
         }
         else if (exploding > 0)
         {
-            rigidbody.velocity = Vector3.down * Time.deltaTime * EXPLODE_RATE;
+            rigidbody.velocity = (nope ? -1 : +1) * Vector3.down * Time.deltaTime * EXPLODE_RATE;
             exploding++;
         }
         else if (OutOfBounds())
