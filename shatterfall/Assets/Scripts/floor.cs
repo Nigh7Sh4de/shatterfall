@@ -28,7 +28,7 @@ public class floor : MonoBehaviour {
     public void Drop(bool end = false)
     {
 		float pitch = Random.Range (pitchLowRange, pitchHighRange);
-		float vol = Random.Range (0.1f, 0.2f);
+		float vol = Random.Range (0.15f, 0.35f);
 		source.volume = vol;
 		source.pitch = pitch;
 		source.PlayOneShot(shatterSound,pitch);

@@ -1,17 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/floor.cs">
     <Files>
-      <File FileName="Assets/Scripts/player.cs" Line="22" Column="35" />
+      <File FileName="Assets/Scripts/player.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/main.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/floor.cs" Line="50" Column="2" />
+      <File FileName="Assets/Scripts/floor.cs" Line="31" Column="40" />
       <File FileName="Assets/Scripts/scroll.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/orb.cs" Line="24" Column="2" />
+      <File FileName="Assets/Scripts/orb.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/MenuTriangle.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/selector2.cs" Line="59" Column="42" />
+      <File FileName="Assets/Scripts/selector2.cs" Line="58" Column="33" />
       <File FileName="Assets/Scripts/winner.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/selector.cs" Line="45" Column="4" />
+      <File FileName="Assets/Scripts/selector.cs" Line="52" Column="3" />
       <File FileName="Assets/Scripts/music.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Fading.cs" Line="19" Column="64" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

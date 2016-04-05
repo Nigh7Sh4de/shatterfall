@@ -38,6 +38,15 @@ public class selector : MonoBehaviour {
 	}
 
 
+	IEnumerator loadMainScene() {
+		selectable = false;
+		float fadeTime = GameObject.Find ("Fader").GetComponent<Fading> ().BeginFade (1);
+		yield return new WaitForSeconds (fadeTime);
+		Application.LoadLevel ("main");
+	}
+
+
+
 	// Update is called once per frame
 	void Update () {
 
@@ -67,9 +76,9 @@ public class selector : MonoBehaviour {
 		transform.position = uiChoices [option].transform.position + new Vector3 (-uiChoices [option].transform.localScale.x * 0.55f, uiChoices [option].transform.localScale.x * 0.2f, 0);
 
 		if ((Input.GetKeyDown (KeyCode.Space) || Input.GetAxis ("Jump") > 0)) {
-			if (option < 3) {
+			if (option < 3 && selectable) {
 				source.PlayOneShot (selectSound, 1F);
-				Application.LoadLevel ("main");
+				StartCoroutine(loadMainScene());
 			} else {
 				source.PlayOneShot (selectSound, 1F);
 				toggleInstructions ();
