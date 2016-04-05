@@ -389,7 +389,8 @@ public class player : MonoBehaviour
 
         if (collisions.Count < 1 && transform.position.y < 0.511)
         {
-            Physics.IgnoreCollision(thisCollider, floorCollider, true);
+            //Physics.IgnoreCollision(thisCollider, floorCollider, true);
+            gameObject.layer = 13;
         }
     }
 
