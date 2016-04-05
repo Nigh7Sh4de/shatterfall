@@ -24,6 +24,7 @@ public class selector : MonoBehaviour {
 		transform.localScale = uiChoices [0].transform.localScale * 9f;
 		selectable = true;
 		howToPlay.SetActive (false);
+        ready = 0;
 	}
 
     
@@ -75,7 +76,8 @@ public class selector : MonoBehaviour {
 
 		transform.position = uiChoices [option].transform.position + new Vector3 (-uiChoices [option].transform.localScale.x * 0.55f, uiChoices [option].transform.localScale.x * 0.2f, 0);
 
-		if ((Input.GetKeyDown (KeyCode.Space) || Input.GetAxis ("Jump") > 0)) {
+		if ((Input.GetKeyDown (KeyCode.Space) || Input.GetAxis ("Jump") > 0) && ready <= 0) {
+            ready = READY_DELAY;
 			if (option < 3 && selectable) {
 				source.PlayOneShot (selectSound, 1F);
 				StartCoroutine(loadMainScene());
