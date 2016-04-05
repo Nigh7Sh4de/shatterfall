@@ -390,7 +390,7 @@ public class player : MonoBehaviour
         if (collisions.Count < 1 && transform.position.y < 0.41)
         {
             Physics.IgnoreCollision(thisCollider, floorCollider, true);
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x / 10, rigidbody.velocity.y * (rigidbody.velocity.y < 0 ? 2 : -2), rigidbody.velocity.z / 10);
+            rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
             //gameObject.layer = 13;
         }
     }
