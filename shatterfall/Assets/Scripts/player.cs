@@ -264,7 +264,7 @@ public class player : MonoBehaviour
                     
             }
 
-            if (GetControlDown(PC.Jump) && transform.position.y > 0.509 && transform.position.y < 0.519)
+            if (GetControlDown(PC.Jump) && transform.position.y > 0.40 && transform.position.y < 0.42)
             {
                 rigidbody.velocity = Vector3.up * 0;
                 rigidbody.velocity += Vector3.up * 5;
