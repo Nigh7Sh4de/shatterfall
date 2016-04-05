@@ -77,7 +77,7 @@ public class selector : MonoBehaviour {
 		transform.position = uiChoices [option].transform.position + new Vector3 (-uiChoices [option].transform.localScale.x * 0.55f, uiChoices [option].transform.localScale.x * 0.2f, 0);
 
 		if ((Input.GetKeyDown (KeyCode.Space) || Input.GetAxis ("Submit") > 0) && ready <= 0) {
-            ready = READY_DELAY;
+            ready = READY_DELAY * 1000;
 			if (option < 3 && selectable) {
 				source.PlayOneShot (selectSound, 1F);
 				StartCoroutine(loadMainScene());
