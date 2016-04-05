@@ -75,7 +75,7 @@ public class main : MonoBehaviour
             }
             Start();
         }
-		if (Input.GetKeyDown (KeyCode.R)) {
+		if (Input.GetKeyDown (KeyCode.R) || Input.GetAxis("Start") > 0) {
 			Application.LoadLevel ("MainMenu");
 		}
     }
