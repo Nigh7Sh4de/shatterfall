@@ -83,8 +83,9 @@ public class selector : MonoBehaviour {
 				StartCoroutine(loadMainScene());
 			} else {
 				source.PlayOneShot (selectSound, 1F);
+                ready = READY_DELAY * 3;
 				toggleInstructions ();
-			}
+            }
 		}
 	}
 
