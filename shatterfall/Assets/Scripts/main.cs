@@ -85,17 +85,33 @@ public class main : MonoBehaviour
         return floorInstance;
     }
 
-    private Vector3 GeneratePlayerPosition(int i)
+    private class PlayerPosition
+    {
+        public PlayerPosition(Vector3 pos, Vector3 rot)
+        {
+            position = pos;
+            rotation = rot;
+        }
+        public Vector3 position;
+        public Vector3 rotation;
+    }
+
+    private PlayerPosition GeneratePlayerPosition(int i)
     {
         if (i > 3)
             throw new UnityException("Cannot have more than 4 players.");
         var map_width = FloorConstants.s_x1 * (0 + 31) + FloorConstants.t_x1;
-        var result = new Vector3(
+        var position = new Vector3(
                 i % 2 != 0 ? map_width - 5 : 5,
                 0.7f,
                 i < 2 ? 5 : -5
             );
-        return result; 
+        var rotation = new Vector3(
+                0,
+                i % 2 == 0 ? 0 : 180,
+                0
+            );
+        return new PlayerPosition(position, rotation); 
 
     }
 
@@ -103,7 +119,8 @@ public class main : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            var created_player = (GameObject)Instantiate(player, GeneratePlayerPosition(i), Quaternion.Euler(new Vector3(0, 0, 0)));
+            var playerPos = GeneratePlayerPosition(i);
+            var created_player = (GameObject)Instantiate(player, playerPos.position, Quaternion.Euler(playerPos.rotation));
             created_player.GetComponent<player>().InitPlayer(this.GetComponent<Camera>(), i + 1, PlayerMaterial[i]);
             Players.Add(created_player);
         }
