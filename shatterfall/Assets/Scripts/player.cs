@@ -143,8 +143,9 @@ public class player : MonoBehaviour
 
     public void InitPlayer(Camera cam, int n, Material m)
     {
+        //n = 5 - n;
         gameObject.name = "Player" + n;
-        PC = new PlayerControls(n);
+        PC = new PlayerControls(5-n);
         //PC = new PlayerControls(5 - n);
         material = m;
         var renderers = GetComponentsInChildren<Renderer>();
@@ -186,7 +187,9 @@ public class player : MonoBehaviour
             if (!upCheck)
                 control.PreviousFrame = result;
 
-            if (result == 1)
+            Debug.Log(result);
+
+            if (result != 0)
             {
                 control.PreviousFrame = result;
                 return true;
@@ -251,7 +254,7 @@ public class player : MonoBehaviour
                 Debug.Log("Swapping mouse and gamepad controlls for DIRECTION");
             }
 
-            if (GetControlDown(PC.Explode) || GetControlDown(PC.Activate))
+            if (GetControlDown(PC.Explode))// || GetControlDown(PC.Activate))
             {
                 if (_orb.gameObject.activeSelf)
                     _orb.Explode();
