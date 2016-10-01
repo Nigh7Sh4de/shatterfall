@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using SocketIO;
 
 public class main : MonoBehaviour
@@ -63,7 +64,7 @@ public class main : MonoBehaviour
         //    Debug.Log(e.name + " " + e.data);
         //});
 
-
+        network.init();
         Players.Clear();
         CreateFloor(8);
         var playerCount = selector.option + 2;

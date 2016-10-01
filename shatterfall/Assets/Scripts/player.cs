@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Assets.Scripts;
 
 public class player : MonoBehaviour
 {
@@ -121,23 +122,6 @@ public class player : MonoBehaviour
 
     }
 
-    public class KeyMap
-    {
-        public KeyMap(string name, string x, KeyCode p, KeyCode? n = null)
-        {
-            Name = name;
-            XBOXkey = x;
-            PCkey = p;
-            PreviousFrame = 10;
-            nPCkey = n;
-        }
-        public string Name;
-        public string XBOXkey;
-        public KeyCode PCkey;
-        public KeyCode? nPCkey;
-        public float PreviousFrame;
-    }
-
     public void Win()
     {
         this.Active = false;
@@ -185,6 +169,7 @@ public class player : MonoBehaviour
 
     private bool GetControlDown(KeyMap control, bool upCheck = false)
     {
+        bool pressed = false;
         if (this.Controlled)
         {
             float result;
@@ -198,17 +183,21 @@ public class player : MonoBehaviour
                 if (result != 0)
                 {
                     control.PreviousFrame = result;
-                    return true;
+                    pressed = true;
                 }
             }
             if (Input.GetKeyDown(control.PCkey))
-                return true;
-            return false;
+                 pressed = true;
+
+
+            if (pressed)
+                network.Down(new Control(control.Name, gameObject.name));
         }
         else
         {
-            return false;
+            
         }
+        return pressed;
     }
 
     private bool GetControlUp(KeyMap control, bool downCheck = false)
