@@ -9,6 +9,7 @@ public class player : MonoBehaviour
     public GameObject orb;
     orb _orb;
     public bool Active = true;
+    public bool Controlled = false;
     int flying = -1;
 
     //player direction
@@ -122,13 +123,15 @@ public class player : MonoBehaviour
 
     public class KeyMap
     {
-        public KeyMap(string x, KeyCode p, KeyCode? n = null)
+        public KeyMap(string name, string x, KeyCode p, KeyCode? n = null)
         {
+            Name = name;
             XBOXkey = x;
             PCkey = p;
             PreviousFrame = 10;
             nPCkey = n;
         }
+        public string Name;
         public string XBOXkey;
         public KeyCode PCkey;
         public KeyCode? nPCkey;
@@ -141,7 +144,7 @@ public class player : MonoBehaviour
         flying = 0;
     }
 
-    public void InitPlayer(Camera cam, int n, Material m)
+    public void InitPlayer(Camera cam, int n, Material m, bool ctrl)
     {
         //n = 5 - n;
         gameObject.name = "Player" + n;
@@ -151,6 +154,7 @@ public class player : MonoBehaviour
         var renderers = GetComponentsInChildren<Renderer>();
         foreach (var r in renderers)
             r.material = m;
+        this.Controlled = ctrl;
     }
 
     private PlayerControls PC;
@@ -168,36 +172,43 @@ public class player : MonoBehaviour
 
         public PlayerControls(int n)
         {
-            Activate = new KeyMap("Activate" + n, KeyCode.Mouse1);
-            Explode = new KeyMap("Explode" + n, KeyCode.Mouse0);
-            Jump = new KeyMap("Jump" + n, KeyCode.Space);
-            Horizontal = new KeyMap("Horizontal" + n, KeyCode.Mouse0);
-            Vertical = new KeyMap("Vertical" + n, KeyCode.Mouse0);
-            MoveHorizontal = new KeyMap("MoveHorizontal" + n, KeyCode.D, KeyCode.A);
-            MoveVertical = new KeyMap("MoveVertical" + n, KeyCode.W, KeyCode.S);
-            LockMouseMovement = new KeyMap("LockMouseMovement" + n, KeyCode.Backslash);
+            Activate = new KeyMap("Activate", "Activate" + n, KeyCode.Mouse1);
+            Explode = new KeyMap("Explode", "Explode" + n, KeyCode.Mouse0);
+            Jump = new KeyMap("Jump", "Jump" + n, KeyCode.Space);
+            Horizontal = new KeyMap("Horizontal", "Horizontal" + n, KeyCode.Mouse0);
+            Vertical = new KeyMap("Vertical", "Vertical" + n, KeyCode.Mouse0);
+            MoveHorizontal = new KeyMap("MoveHorizontal", "MoveHorizontal" + n, KeyCode.D, KeyCode.A);
+            MoveVertical = new KeyMap("MoveVertical", "MoveVertical" + n, KeyCode.W, KeyCode.S);
+            LockMouseMovement = new KeyMap("LockMouseMovement", "LockMouseMovement" + n, KeyCode.Backslash);
     }
     };
 
     private bool GetControlDown(KeyMap control, bool upCheck = false)
     {
-        float result;
-        if ((result = Input.GetAxis(control.XBOXkey)) != control.PreviousFrame)
+        if (this.Controlled)
         {
-            if (!upCheck)
-                control.PreviousFrame = result;
-
-            Debug.Log(result);
-
-            if (result != 0)
+            float result;
+            if ((result = Input.GetAxis(control.XBOXkey)) != control.PreviousFrame)
             {
-                control.PreviousFrame = result;
-                return true;
+                if (!upCheck)
+                    control.PreviousFrame = result;
+
+                //Debug.Log(result);
+
+                if (result != 0)
+                {
+                    control.PreviousFrame = result;
+                    return true;
+                }
             }
+            if (Input.GetKeyDown(control.PCkey))
+                return true;
+            return false;
         }
-        if (Input.GetKeyDown(control.PCkey))
-            return true;
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
     private bool GetControlUp(KeyMap control, bool downCheck = false)
@@ -239,6 +250,11 @@ public class player : MonoBehaviour
             return -1;
         else
             return Input.GetAxis(control.XBOXkey);
+    }
+
+    private bool GetNetworkControlDown(string control)
+    {
+        return false;
     }
 
     // Update is called once per frame

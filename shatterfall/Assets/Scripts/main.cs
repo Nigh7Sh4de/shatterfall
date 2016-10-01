@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using SocketIO;
 
 public class main : MonoBehaviour
 {
@@ -43,6 +44,26 @@ public class main : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //var go = GameObject.Find("SocketIO");
+        //var socket = go.GetComponent<SocketIOComponent>();
+        //socket.On("open", (e) => {
+        //    Debug.Log(e.name + " " + e.data);
+        //    var json = new JSONObject();
+        //    json.AddField("prop", "some value");
+        //    Debug.Log("emitting 'beep'");
+        //    socket.Emit("beep", json);
+        //});
+        //socket.On("boop", (e) => {
+        //    Debug.Log(e.name + " " + e.data);
+        //});
+        //socket.On("error", (e) => {
+        //    Debug.Log(e.name + " " + e.data);
+        //});
+        //socket.On("close", (e) => {
+        //    Debug.Log(e.name + " " + e.data);
+        //});
+
+
         Players.Clear();
         CreateFloor(8);
         var playerCount = selector.option + 2;
@@ -121,7 +142,7 @@ public class main : MonoBehaviour
         {
             var playerPos = GeneratePlayerPosition(i);
             var created_player = (GameObject)Instantiate(player, playerPos.position, Quaternion.Euler(playerPos.rotation));
-            created_player.GetComponent<player>().InitPlayer(this.GetComponent<Camera>(), i + 1, PlayerMaterial[i]);
+            created_player.GetComponent<player>().InitPlayer(this.GetComponent<Camera>(), i + 1, PlayerMaterial[i], i == 0);
             Players.Add(created_player);
         }
     }
