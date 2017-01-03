@@ -10,7 +10,7 @@ The game is a collaboration between two students from Ryerson University, Alessa
 The concept for the game was realized in October 2015, with the full development period beginning in early January 2016. SHATTERFALL was developed using the UNITY 3D game engine and was written in C#. All 3D assets were created and animated in Blender.
 
 
-The game was completed at the beginning of April, just in time for Level Up Showcase 2016. This event was held on April 6, 2016 at the Design Exchange in Downtown Toronto, Canada. The annual event allows students across Ontario to showcase games they've made to the public.
+The game was completed at the beginning of April, just in time for Level Up Showcase 2016. This event was held on April 6, 2016 at the Design Exchange in Downtown Toronto, Canada. The annual event provides an opportunity students across Ontario to showcase video games they've made to the public.
 
 View the trailer here:  
 https://www.youtube.com/watch?v=XDH8bkWh9L0
