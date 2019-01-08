@@ -1,4 +1,4 @@
-#SHATTERFALL
+## SHATTERFALL
 
 
 SHATTERFALL is a battle arena style PC game that is playable with 2-4 players using Xbox 360 controllers.
